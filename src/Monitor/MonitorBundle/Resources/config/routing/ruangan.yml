@@ -1,0 +1,30 @@
+ruangan:
+    path:     /
+    defaults: { _controller: "MonitorMonitorBundle:Ruangan:index" }
+
+ruangan_show:
+    path:     /{id}/show
+    defaults: { _controller: "MonitorMonitorBundle:Ruangan:show" }
+
+ruangan_new:
+    path:     /new
+    defaults: { _controller: "MonitorMonitorBundle:Ruangan:new" }
+
+ruangan_create:
+    path:     /create
+    defaults: { _controller: "MonitorMonitorBundle:Ruangan:create" }
+    methods:  POST
+
+ruangan_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "MonitorMonitorBundle:Ruangan:edit" }
+
+ruangan_update:
+    path:     /{id}/update
+    defaults: { _controller: "MonitorMonitorBundle:Ruangan:update" }
+    methods:  [POST, PUT]
+
+ruangan_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "MonitorMonitorBundle:Ruangan:delete" }
+    methods:  [POST, DELETE]

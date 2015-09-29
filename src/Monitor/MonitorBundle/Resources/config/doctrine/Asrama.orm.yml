@@ -1,0 +1,33 @@
+Monitor\MonitorBundle\Entity\Asrama:
+ type: entity
+ repositoryClass: Monitor\MonitorBundle\Repository\AsramaRepository
+ table: asrama
+ id:
+  id:
+   type: integer
+   generator: { strategy: AUTO }
+ fields:
+  nama:
+   type: string
+   length: 255
+  is_active:
+   type: boolean
+  created_at:
+   type: datetime
+  updated_at:
+   type: datetime
+   nullable: true
+  token:
+   type: string
+   length: 255
+   unique: true
+ oneToOne:
+  user:
+   targetEntity: User
+   mappedBy: asrama
+  ruangan:
+   targetEntity: Ruangan
+   mappedBy: asrama
+ lifecycleCallbacks:
+  prePersist: [ setCreatedAtValue, setTokenValue ]
+  preUpdate: [ setUpdatedAtValue ]

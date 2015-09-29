@@ -1,0 +1,30 @@
+penghuni:
+    path:     /
+    defaults: { _controller: "MonitorMonitorBundle:Penghuni:index" }
+
+penghuni_show:
+    path:     /{id}/show
+    defaults: { _controller: "MonitorMonitorBundle:Penghuni:show" }
+
+penghuni_new:
+    path:     /new
+    defaults: { _controller: "MonitorMonitorBundle:Penghuni:new" }
+
+penghuni_create:
+    path:     /create
+    defaults: { _controller: "MonitorMonitorBundle:Penghuni:create" }
+    methods:  POST
+
+penghuni_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "MonitorMonitorBundle:Penghuni:edit" }
+
+penghuni_update:
+    path:     /{id}/update
+    defaults: { _controller: "MonitorMonitorBundle:Penghuni:update" }
+    methods:  [POST, PUT]
+
+penghuni_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "MonitorMonitorBundle:Penghuni:delete" }
+    methods:  [POST, DELETE]

@@ -1,0 +1,30 @@
+orang:
+    path:     /
+    defaults: { _controller: "MonitorMonitorBundle:Orang:index" }
+
+orang_show:
+    path:     /{id}/show
+    defaults: { _controller: "MonitorMonitorBundle:Orang:show" }
+
+orang_new:
+    path:     /new
+    defaults: { _controller: "MonitorMonitorBundle:Orang:new" }
+
+orang_create:
+    path:     /create
+    defaults: { _controller: "MonitorMonitorBundle:Orang:create" }
+    methods:  POST
+
+orang_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "MonitorMonitorBundle:Orang:edit" }
+
+orang_update:
+    path:     /{id}/update
+    defaults: { _controller: "MonitorMonitorBundle:Orang:update" }
+    methods:  [POST, PUT]
+
+orang_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "MonitorMonitorBundle:Orang:delete" }
+    methods:  [POST, DELETE]

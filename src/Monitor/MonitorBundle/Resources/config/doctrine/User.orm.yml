@@ -1,0 +1,30 @@
+Monitor\MonitorBundle\Entity\User:
+ type: entity
+ repositoryClass: Monitor\MonitorBundle\Repository\UserRepository
+ table: user
+ id:
+  id:
+   type: integer
+   generator: { strategy: AUTO }
+ fields:
+  is_active:
+   type: boolean
+  created_at:
+   type: datetime
+  updated_at:
+   type: datetime
+   nullable: true
+  token:
+   type: string
+   length: 255
+   unique: true
+ oneToOne:
+  asrama:
+   targetEntity: Asrama
+   inversedBy: user
+   joinColumn:
+    name: asrama_id
+    referencedColumnName: id
+ lifecycleCallbacks:
+  prePersist: [setCreatedAtValue, setTokenValue ]
+  preUpdate: [ setUpdatedAtValue ]

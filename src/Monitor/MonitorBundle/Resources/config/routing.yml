@@ -1,0 +1,23 @@
+monitor_monitor_orang:
+    resource: "@MonitorMonitorBundle/Resources/config/routing/orang.yml"
+    prefix:   /orang
+
+monitor_monitor_penghuni:
+    resource: "@MonitorMonitorBundle/Resources/config/routing/penghuni.yml"
+    prefix:   /penghuni
+
+monitor_monitor_user:
+    resource: "@MonitorMonitorBundle/Resources/config/routing/user.yml"
+    prefix:   /user
+
+monitor_monitor_ruangan:
+    resource: "@MonitorMonitorBundle/Resources/config/routing/ruangan.yml"
+    prefix:   /ruangan
+
+monitor_monitor_asrama:
+    resource: "@MonitorMonitorBundle/Resources/config/routing/asrama.yml"
+    prefix:   /asrama
+
+monitor_monitor_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: MonitorMonitorBundle:Default:index }

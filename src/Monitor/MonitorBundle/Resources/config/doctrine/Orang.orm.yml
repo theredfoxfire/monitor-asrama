@@ -1,0 +1,38 @@
+Monitor\MonitorBundle\Entity\Orang:
+ type: entity
+ repositoryClass: Monitor\MonitorBundle\Repository\OrangRepository
+ table: orang
+ id:
+  id:
+   type: integer
+   generator: { strategy: AUTO }
+ fields:
+  nama:
+   type: string
+   length: 255
+  no_identitas:
+   type: string
+   length: 255
+  jk:
+   type: string
+   length: 20
+  alamat:
+   type: text
+  is_active:
+   type: boolean
+  created_at:
+   type: datetime
+  updated_at:
+   type: datetime
+   nullable: true
+  token:
+   type: string
+   length: 255
+   unique: true
+ oneToMany:
+  penghuni:
+   targetEntity: Penghuni
+   mappedBy: orang
+ lifecycleCallbacks:
+  prePersist: [setCreatedAtValue, setTokenValue ]
+  preUpdate: [ setUpdatedAtValue ]
