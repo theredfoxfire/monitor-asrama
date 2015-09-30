@@ -29,5 +29,5 @@ Monitor\MonitorBundle\Entity\Asrama:
    targetEntity: Ruangan
    mappedBy: asrama
  lifecycleCallbacks:
-  prePersist: [ setCreatedAtValue, setTokenValue ]
+  prePersist: [ setCreatedAtValue, setTokenValue, setIsActiveValue ]
   preUpdate: [ setUpdatedAtValue ]

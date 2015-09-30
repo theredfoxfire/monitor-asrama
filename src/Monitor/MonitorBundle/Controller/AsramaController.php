@@ -62,13 +62,10 @@ class AsramaController extends Controller
      */
     private function createCreateForm(Asrama $entity)
     {
-        $form = $this->createForm(new AsramaType(), $entity, array(
+		$form = $this->createForm(new AsramaType(), $entity, array(
             'action' => $this->generateUrl('asrama_create'),
             'method' => 'POST',
-        ));
-
-        $form->add('submit', 'submit', array('label' => 'Create'));
-
+        ));  
         return $form;
     }
 

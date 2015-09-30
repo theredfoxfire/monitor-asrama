@@ -6,8 +6,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class DefaultController extends Controller
 {
-    public function indexAction($name)
+    public function indexAction()
     {
-        return $this->render('MonitorMonitorBundle:Default:index.html.twig', array('name' => $name));
+		$name = "";
+        return $this->render('MonitorMonitorBundle:Default:greeting.html.twig', array('name' => $name));
     }
 }

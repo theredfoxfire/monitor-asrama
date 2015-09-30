@@ -19,5 +19,5 @@ monitor_monitor_asrama:
     prefix:   /asrama
 
 monitor_monitor_homepage:
-    path:     /hello/{name}
+    path:     /
     defaults: { _controller: MonitorMonitorBundle:Default:index }
