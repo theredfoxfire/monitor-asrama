@@ -22,10 +22,12 @@
 					<tr>
 						<td>{{ i }}</td>
 						<td><a class='link' href="{{ path('asrama_show', { 'id': entity.id }) }}">{{ entity.nama }}</a></td>
-						<td>Aktif</td>
+						<td>{% if entity.isactive == 1 %} Aktif {% else %} Ditutup {% endif %}</td>
 						<td>
-							<a href="{{ path('asrama_edit', { 'id': entity.id }) }}"><i class='fa fa-pencil-square-o'></i>Edit</a>
-							<a href='#' class='clear'><i class="fa fa-trash"></i>Hapus</a>
+							<a href="{{ path('asrama_edit', { 'id': entity.id }) }}"><button type='submit' class='btn btn-primary pull-left'><i class='fa fa-pencil-square-o'></i>Edit</button></a>
+							{{ form_start(deleteForm[entity.id], {'attr': {'onclick': 'return confirm("Yakin akan menghapus data ini?")'}}) }}
+								<button type='submit' class='btn btn-danger pull-left'><i class='fa fa-trash'></i>Hapus</button>
+							{{ form_end(deleteForm[entity.id]) }}
 						</td>
 					</tr>
 					{% set i = i+1 %}

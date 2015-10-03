@@ -15,8 +15,7 @@ class AsramaType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nama', 'text', array('attr'=>array('class'=>'form-control', 'required'=> true,'placeholder'=>'Nama Apartement'), 'label'=>false))
-            ->add('is_active', 'hidden', array('attr'=>array('class'=>'form-control', 'required'=> false,'placeholder'=>'Is Active'), 'label'=>false))
+            ->add('nama', 'text', array('attr'=>array('class'=>'form-control', 'required'=> true,'placeholder'=>'Nama Asrama'), 'label'=>false))
         ;
     }
     

@@ -24,9 +24,13 @@ class AsramaController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('MonitorMonitorBundle:Asrama')->findAll();
+        foreach ($entities as $entity) {
+			$deleteForm[$entity->getId()] = $this->createDeleteForm($entity->getId())->createView();
+		}
 
         return $this->render('MonitorMonitorBundle:Asrama:index.html.twig', array(
             'entities' => $entities,
+            'deleteForm' => $deleteForm,
         ));
     }
     /**
@@ -44,7 +48,7 @@ class AsramaController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('asrama_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('asrama'));
         }
 
         return $this->render('MonitorMonitorBundle:Asrama:new.html.twig', array(
@@ -121,12 +125,10 @@ class AsramaController extends Controller
         }
 
         $editForm = $this->createEditForm($entity);
-        $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('MonitorMonitorBundle:Asrama:edit.html.twig', array(
             'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+            'form'   => $editForm->createView(),
         ));
     }
 
@@ -143,8 +145,9 @@ class AsramaController extends Controller
             'action' => $this->generateUrl('asrama_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
-
-        $form->add('submit', 'submit', array('label' => 'Update'));
+        
+        $form->add('is_active', 'choice', array('choices'=> array('0' => 'Ditutup', '1' => 'Aktif'), 'data' => $entity->getIsActive(),
+			'attr'=>array('class'=>'form-control', 'required'=> false), 'label'=>false));
 
         return $form;
     }
@@ -169,13 +172,12 @@ class AsramaController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('asrama_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('asrama'));
         }
 
         return $this->render('MonitorMonitorBundle:Asrama:edit.html.twig', array(
             'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+            'form'   => $editForm->createView(),
         ));
     }
     /**
@@ -214,7 +216,6 @@ class AsramaController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('asrama_delete', array('id' => $id)))
             ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm()
         ;
     }
