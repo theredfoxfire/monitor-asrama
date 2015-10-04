@@ -10,4 +10,31 @@ namespace Monitor\MonitorBundle\Repository;
  */
 class RuanganRepository extends \Doctrine\ORM\EntityRepository
 {
+	public function getRuangan($idap)
+	{
+		$query = $this->getEntityManager()
+			->createQuery('
+					select r from MonitorMonitorBundle:Ruangan r
+					inner join r.asrama a
+					where a.id = :idap
+					order by r.created_at ASC
+				')
+			->setParameters(array('idap' => $idap));
+		
+		return $query->getResult();
+	}
+	
+	public function getRuanganQuery($idap)
+	{
+		$query = $this->getEntityManager()
+			->createQuery('
+				select r from MonitorMonitorBundle:Ruangan r 
+				inner join r.asrama a
+				where a.id = :idap
+				order by r.created_at ASC
+				')
+			->setParameters(array('idap' => $idap));
+		
+		return $query;
+	}
 }

@@ -1,5 +1,5 @@
 ruangan:
-    path:     /{id}
+    path:     /
     defaults: { _controller: "MonitorMonitorBundle:Ruangan:index" }
 
 ruangan_show:
@@ -7,11 +7,11 @@ ruangan_show:
     defaults: { _controller: "MonitorMonitorBundle:Ruangan:show" }
 
 ruangan_new:
-    path:     /new
+    path:     /new/{idas}
     defaults: { _controller: "MonitorMonitorBundle:Ruangan:new" }
 
 ruangan_create:
-    path:     /create
+    path:     /create/{idas}
     defaults: { _controller: "MonitorMonitorBundle:Ruangan:create" }
     methods:  POST
 

@@ -252,4 +252,68 @@ class Asrama
     {
         $this->updated_at = new \DateTime();
     }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function setIsActiveValue()
+    {
+        $this->is_active = true;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->user = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->ruangan = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add user
+     *
+     * @param \Monitor\MonitorBundle\Entity\User $user
+     *
+     * @return Asrama
+     */
+    public function addUser(\Monitor\MonitorBundle\Entity\User $user)
+    {
+        $this->user[] = $user;
+
+        return $this;
+    }
+
+    /**
+     * Remove user
+     *
+     * @param \Monitor\MonitorBundle\Entity\User $user
+     */
+    public function removeUser(\Monitor\MonitorBundle\Entity\User $user)
+    {
+        $this->user->removeElement($user);
+    }
+
+    /**
+     * Add ruangan
+     *
+     * @param \Monitor\MonitorBundle\Entity\Ruangan $ruangan
+     *
+     * @return Asrama
+     */
+    public function addRuangan(\Monitor\MonitorBundle\Entity\Ruangan $ruangan)
+    {
+        $this->ruangan[] = $ruangan;
+
+        return $this;
+    }
+
+    /**
+     * Remove ruangan
+     *
+     * @param \Monitor\MonitorBundle\Entity\Ruangan $ruangan
+     */
+    public function removeRuangan(\Monitor\MonitorBundle\Entity\Ruangan $ruangan)
+    {
+        $this->ruangan->removeElement($ruangan);
+    }
 }

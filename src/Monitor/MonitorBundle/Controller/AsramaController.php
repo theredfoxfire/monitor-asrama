@@ -2,10 +2,12 @@
 
 namespace Monitor\MonitorBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 use Monitor\MonitorBundle\Entity\Asrama;
+use Monitor\MonitorBundle\Entity\Ruangan;
+use Monitor\MonitorBundle\Form\RuanganType;
 use Monitor\MonitorBundle\Form\AsramaType;
 
 /**
@@ -23,6 +25,7 @@ class AsramaController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
+        $deleteForm = array();
         $entities = $em->getRepository('MonitorMonitorBundle:Asrama')->findAll();
         foreach ($entities as $entity) {
 			$deleteForm[$entity->getId()] = $this->createDeleteForm($entity->getId())->createView();
@@ -103,18 +106,28 @@ class AsramaController extends Controller
     public function showAction($id)
     {
         $em = $this->getDoctrine()->getManager();
+        
+        $entityAs = $em->getRepository('MonitorMonitorBundle:Asrama')->find($id);
 
-        $entity = $em->getRepository('MonitorMonitorBundle:Asrama')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Asrama entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
+        $entities = $em->getRepository('MonitorMonitorBundle:Ruangan')->getRuangan($id);
+        
+        $deleteForm = array();
+        foreach ($entities as $entity) {
+			$deleteForm[$entity->getId()] = $this->createDeleteRuanganForm($entity->getId())->createView();
+		}
+        
+        $paginator = $this->get('knp_paginator');
+        $query = $em->getRepository('MonitorMonitorBundle:Ruangan')->getRuanganQuery($id);
+        $pagination = $paginator->paginate(
+			$query,
+			$this->get('request')->query->get('page', 1),
+			25
+		);
 
         return $this->render('MonitorMonitorBundle:Asrama:show.html.twig', array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
+            'entities' => $pagination,
+            'entityAs' => $entityAs,
+            'deleteForm' => $deleteForm,
         ));
     }
 
@@ -223,6 +236,22 @@ class AsramaController extends Controller
     {
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('asrama_delete', array('id' => $id)))
+            ->setMethod('DELETE')
+            ->getForm()
+        ;
+    }
+    
+    /**
+     * Creates a form to delete a Ruangan entity by id
+     * 
+     * @param mixed $id The entity id
+     * 
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createDeleteRuanganForm($id)
+    {
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('ruangan_delete', array('id' => $id)))
             ->setMethod('DELETE')
             ->getForm()
         ;

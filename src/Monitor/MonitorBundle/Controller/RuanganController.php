@@ -33,22 +33,25 @@ class RuanganController extends Controller
      * Creates a new Ruangan entity.
      *
      */
-    public function createAction(Request $request)
+    public function createAction(Request $request, $idas)
     {
+		$em = $this->getDoctrine()->getManager();
         $entity = new Ruangan();
-        $form = $this->createCreateForm($entity);
+        $form = $this->createCreateForm($entity, $idas);
         $form->handleRequest($request);
+        $as = $em->getRepository('MonitorMonitorBundle:Asrama')->find($idas);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('ruangan_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('asrama_show', array('id' => $idas)));
         }
 
         return $this->render('MonitorMonitorBundle:Ruangan:new.html.twig', array(
             'entity' => $entity,
+            'as' => $as,
             'form'   => $form->createView(),
         ));
     }
@@ -60,14 +63,12 @@ class RuanganController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createCreateForm(Ruangan $entity)
+    private function createCreateForm(Ruangan $entity, $idas)
     {
-        $form = $this->createForm(new RuanganType(), $entity, array(
-            'action' => $this->generateUrl('ruangan_create'),
+        $form = $this->createForm(new RuanganType($this->getDoctrine()->getManager()), $entity, array(
+            'action' => $this->generateUrl('ruangan_create', array('idas' => $idas)),
             'method' => 'POST',
         ));
-
-        $form->add('submit', 'submit', array('label' => 'Create'));
 
         return $form;
     }
@@ -76,13 +77,17 @@ class RuanganController extends Controller
      * Displays a form to create a new Ruangan entity.
      *
      */
-    public function newAction()
+    public function newAction($idas = null)
     {
+		$em = $this->getDoctrine()->getManager();
         $entity = new Ruangan();
-        $form   = $this->createCreateForm($entity);
+        $form   = $this->createCreateForm($entity, $idas);
+        
+        $as = $em->getRepository('MonitorMonitorBundle:Asrama')->find($idas);
 
         return $this->render('MonitorMonitorBundle:Ruangan:new.html.twig', array(
             'entity' => $entity,
+            'as' => $as,
             'form'   => $form->createView(),
         ));
     }
@@ -217,7 +222,6 @@ class RuanganController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('ruangan_delete', array('id' => $id)))
             ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm()
         ;
     }

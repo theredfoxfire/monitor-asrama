@@ -21,7 +21,7 @@ Monitor\MonitorBundle\Entity\Ruangan:
    type: string
    length: 255
    unique: true
- oneToOne:
+ manyToOne:
   asrama:
    targetEntity: Asrama
    inversedBy: ruangan
@@ -33,5 +33,5 @@ Monitor\MonitorBundle\Entity\Ruangan:
    targetEntity: Penghuni
    mappedBy: ruangan
  lifecycleCallbacks:
-  prePersist: [setCreatedAtValue, setTokenValue ]
+  prePersist: [setCreatedAtValue, setTokenValue, setIsActiveValue ]
   preUpdate: [ setUpdatedAtValue ]

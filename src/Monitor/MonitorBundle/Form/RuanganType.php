@@ -8,6 +8,19 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class RuanganType extends AbstractType
 {
+	/**
+	 * @var array object
+	 */
+	protected $em;
+	
+	/**
+	 * @param OrmEntityManager $em
+	 */
+	public function __construct($em)
+	{
+		$this->em = $em;
+	}
+	
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -15,12 +28,12 @@ class RuanganType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nama')
-            ->add('is_active')
-            ->add('created_at')
-            ->add('updated_at')
-            ->add('token')
-            ->add('asrama')
+            ->add('nama','text', array('attr' => array( 'class' => 'form-control'), 'label' => false))
+            ->add('asrama', 'entity', array( 
+            'class' => 'MonitorMonitorBundle:Asrama',
+            'property' => 'nama',
+            'empty_value' => '--Pilih Asrama--',
+            'attr'=>array('class'=>'form-control'), 'required'=> false, 'label'=>false))
         ;
     }
     

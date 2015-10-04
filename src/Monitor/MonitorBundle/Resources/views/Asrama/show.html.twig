@@ -1,48 +1,48 @@
-{% extends '::base.html.twig' %}
+{% extends 'MonitorMonitorBundle:Default:index.html.twig' %}
 
-{% block body -%}
-    <h1>Asrama</h1>
-
-    <table class="record_properties">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ entity.id }}</td>
-            </tr>
-            <tr>
-                <th>Nama</th>
-                <td>{{ entity.nama }}</td>
-            </tr>
-            <tr>
-                <th>Is_active</th>
-                <td>{{ entity.isactive }}</td>
-            </tr>
-            <tr>
-                <th>Created_at</th>
-                <td>{{ entity.createdat|date('Y-m-d H:i:s') }}</td>
-            </tr>
-            <tr>
-                <th>Updated_at</th>
-                <td>{{ entity.updatedat|date('Y-m-d H:i:s') }}</td>
-            </tr>
-            <tr>
-                <th>Token</th>
-                <td>{{ entity.token }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('asrama') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>
-        <a href="{{ path('asrama_edit', { 'id': entity.id }) }}">
-            Edit
-        </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
-</ul>
+{% block body %}
+	<div class='container'>
+		<div class='row'>
+			<div class='col-xs-12 col-md-12'>
+				<ol class="breadcrumb">
+				  <li><a href="{{ path('monitor_monitor_homepage') }}">Home</a></li>
+				  <li><a href="{{ path('asrama') }}">Asrama</a></li>
+				  <li class="active">Asrama {{ entityAs.nama }}</li>
+				</ol>
+				<table class='table table-bordered table-hover'>
+					<tr>
+						<th colspan='5'>
+							Daftar Ruangan di Asrama {{ entityAs.nama }}<a href="{{ path('ruangan_new', {'idas': entityAs.id}) }}" class='btn btn-success pull-right'><i class='fa fa-plus'></i> TAMBAH</a>
+						</th>
+					</tr>
+					<tr>
+						<th width='5%'>No</th><th width='70%'>Ruangan</th><th width='10%'>Status</th><th width='15%'>Action</th>
+					</tr>
+					{% set pg = app.request.query.get('page') %}
+					{% if pg == 1 or pg == null %}
+						{% set i = 1 %}
+					{% else %}
+						{% set i = 25 *( pg-1 ) + 1 %}
+					{% endif %}
+					{% for entity in entities %}
+					<tr>
+						<td>{{ i }}</td>
+						<td><a class='link' href="{{ path('ruangan_show', { 'id': entity.id }) }}">{{ entity.nama }}</a></td>
+						<td>{% if entity.isactive == 1 %} Aktif {% else %} Ditutup {% endif %}</td>
+						<td>
+							<a href="{{ path('ruangan_edit', { 'id': entity.id }) }}"><button type='submit' class='btn btn-primary pull-left'><i class='fa fa-pencil-square-o'></i>Edit</button></a>
+							{{ form_start(deleteForm[entity.id], {'attr': {'onclick': 'return confirm("Yakin akan menghapus data ini?")'}}) }}
+								<button type='submit' class='btn btn-danger pull-left'><i class='fa fa-trash'></i>Hapus</button>
+							{{ form_end(deleteForm[entity.id]) }}
+						</td>
+					</tr>
+					{% set i = i+1 %}
+					{% endfor %}
+				</table>
+					<div class="text-center">
+						<h4>{{ knp_pagination_render(entities) }}</h4>
+				</div>
+			</div>
+		</div>
+	</div>
 {% endblock %}

@@ -15,6 +15,7 @@ class AsramaRepository extends \Doctrine\ORM\EntityRepository
 		$query = $this->getEntityManager()
 			->createQuery('
 				SELECT a FROM MonitorMonitorBundle:Asrama a
+				ORDER BY a.created_at ASC
 			');
 		return $query;
 	}

@@ -17,11 +17,16 @@
 					<tr>
 						<th width='5%'>No</th><th width='70%'>Asrama</th><th width='10%'>Status</th><th width='15%'>Action</th>
 					</tr>
-					{% set i = 1 %}
+					{% set pg = app.request.query.get('page') %}
+					{% if pg == 1 or pg == null %}
+						{% set i = 1 %}
+					{% else %}
+						{% set i = 25 *( pg-1 ) + 1 %}
+					{% endif %}
 					{% for entity in entities %}
 					<tr>
 						<td>{{ i }}</td>
-						<td><a class='link' href="{{ path('ruangan', { 'id': entity.id }) }}">{{ entity.nama }}</a></td>
+						<td><a class='link' href="{{ path('asrama_show', { 'id': entity.id }) }}">{{ entity.nama }}</a></td>
 						<td>{% if entity.isactive == 1 %} Aktif {% else %} Ditutup {% endif %}</td>
 						<td>
 							<a href="{{ path('asrama_edit', { 'id': entity.id }) }}"><button type='submit' class='btn btn-primary pull-left'><i class='fa fa-pencil-square-o'></i>Edit</button></a>

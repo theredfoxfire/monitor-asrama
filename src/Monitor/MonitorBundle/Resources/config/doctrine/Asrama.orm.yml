@@ -25,6 +25,7 @@ Monitor\MonitorBundle\Entity\Asrama:
   user:
    targetEntity: User
    mappedBy: asrama
+ oneToMany:
   ruangan:
    targetEntity: Ruangan
    mappedBy: asrama
