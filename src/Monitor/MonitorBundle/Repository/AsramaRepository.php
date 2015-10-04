@@ -10,4 +10,12 @@ namespace Monitor\MonitorBundle\Repository;
  */
 class AsramaRepository extends \Doctrine\ORM\EntityRepository
 {
+	public function getAsrama()
+	{
+		$query = $this->getEntityManager()
+			->createQuery('
+				SELECT a FROM MonitorMonitorBundle:Asrama a
+			');
+		return $query;
+	}
 }

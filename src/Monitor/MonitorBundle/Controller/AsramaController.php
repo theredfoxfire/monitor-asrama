@@ -27,9 +27,17 @@ class AsramaController extends Controller
         foreach ($entities as $entity) {
 			$deleteForm[$entity->getId()] = $this->createDeleteForm($entity->getId())->createView();
 		}
+		
+		$paginator = $this->get('knp_paginator');
+		$query = $em->getRepository('MonitorMonitorBundle:Asrama')->getAsrama();
+        $pagination = $paginator->paginate(
+			$query,
+			$this->get('request')->query->get('page', 1),
+			25
+		);
 
         return $this->render('MonitorMonitorBundle:Asrama:index.html.twig', array(
-            'entities' => $entities,
+            'entities' => $pagination,
             'deleteForm' => $deleteForm,
         ));
     }

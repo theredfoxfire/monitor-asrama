@@ -11,7 +11,7 @@
 				<table class='table table-bordered table-hover'>
 					<tr>
 						<th colspan='5'>
-							Daftar Asrama<a href="{{ path('asrama_new') }}" class='btn btn-primary pull-right'><i class='fa fa-plus'></i> TAMBAH</a>
+							Daftar Asrama<a href="{{ path('asrama_new') }}" class='btn btn-success pull-right'><i class='fa fa-plus'></i> TAMBAH</a>
 						</th>
 					</tr>
 					<tr>
@@ -21,7 +21,7 @@
 					{% for entity in entities %}
 					<tr>
 						<td>{{ i }}</td>
-						<td><a class='link' href="{{ path('asrama_show', { 'id': entity.id }) }}">{{ entity.nama }}</a></td>
+						<td><a class='link' href="{{ path('ruangan', { 'id': entity.id }) }}">{{ entity.nama }}</a></td>
 						<td>{% if entity.isactive == 1 %} Aktif {% else %} Ditutup {% endif %}</td>
 						<td>
 							<a href="{{ path('asrama_edit', { 'id': entity.id }) }}"><button type='submit' class='btn btn-primary pull-left'><i class='fa fa-pencil-square-o'></i>Edit</button></a>
@@ -33,6 +33,9 @@
 					{% set i = i+1 %}
 					{% endfor %}
 				</table>
+					<div class="text-center">
+						<h4>{{ knp_pagination_render(entities) }}</h4>
+				</div>
 			</div>
 		</div>
 	</div>
