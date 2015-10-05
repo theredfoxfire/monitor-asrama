@@ -14,11 +14,18 @@ class RuanganType extends AbstractType
 	protected $em;
 	
 	/**
-	 * @param OrmEntityManager $em
+	 * @var string
 	 */
-	public function __construct($em)
+	protected $asr;
+	
+	/**
+	 * @param OrmEntityManager $em
+	 * @param IdAsrama $idas
+	 */
+	public function __construct($em, $idas)
 	{
 		$this->em = $em;
+		$this->asr = $idas;
 	}
 	
     /**
@@ -27,12 +34,14 @@ class RuanganType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+		$em = $this->em;
         $builder
             ->add('nama','text', array('attr' => array( 'class' => 'form-control'), 'label' => false))
             ->add('asrama', 'entity', array( 
             'class' => 'MonitorMonitorBundle:Asrama',
             'property' => 'nama',
             'empty_value' => '--Pilih Asrama--',
+            'data' => $em->getReference('MonitorMonitorBundle:Asrama', $this->asr),
             'attr'=>array('class'=>'form-control'), 'required'=> false, 'label'=>false))
         ;
     }

@@ -1,16 +1,61 @@
-{% extends '::base.html.twig' %}
+{% extends 'MonitorMonitorBundle:Default:index.html.twig' %}
 
-{% block body -%}
-    <h1>Ruangan edit</h1>
-
-    {{ form(edit_form) }}
-
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('ruangan') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
-</ul>
+{% block body %}
+		<div class='container'>
+		<div class='row'>
+			<div class='col-xs-12 col-md-12'>
+			<ol class="breadcrumb">
+				  <li><a href="{{ path('monitor_monitor_homepage') }}">Home</a></li>
+				  <li><a href="{{ path('asrama') }}">Asrama</a></li>
+				  <li><a href="{{ path('asrama_show', { 'id': entity.asrama.id }) }}">Asrama {{ entity.asrama.nama }}</a></li>
+				  <li class="active">Edit Data Ruangan {{ entity.nama }}</li>
+			</ol>
+				{{ form_start(form) }}
+				{{ form_errors(form) }}
+				<table class='table table-bordered table-hover'>
+					<tr>
+						<th colspan='4'>
+							Edit Data Ruangan {{ entity.nama }}
+						</th>
+					</tr>
+					<tr>
+						<td colspan='4'>
+							<div class="form-group">
+								<label for="exampleInputName2">Nama Ruangan</label>
+								{{ form_widget(form.nama) }}
+							</div>
+								{{ form_errors(form.nama) }}
+						</td>
+					</tr>
+					<tr>
+						<td colspan='4'>
+							<div class="form-group">
+								<label for="exampleInputName2">Asrama</label>
+								{{ form_widget(form.asrama) }}
+							</div>
+								{{ form_errors(form.asrama) }}
+						</td>
+					</tr>
+					<tr>
+						<td colspan='4'>
+							<div class="form-group">
+							<label> Status</label>
+								{{ form_widget(form.is_active) }}
+							</div>
+								{{ form_errors(form.is_active) }}
+						</td>
+					</tr>
+					<tr>
+						<td colspan='4'>
+							<div class="form-group">
+								<button type='submit' class='btn btn-primary pull-right'><i class='fa fa-check-square-o'></i> SIMPAN</a>
+							</div>
+						</td>
+					</tr>
+				</table>
+				{{ form_row(form._token) }}
+			{{ form_end(form) }}
+			</div>
+		</div>
+	</div>
 {% endblock %}

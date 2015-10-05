@@ -65,7 +65,7 @@ class RuanganController extends Controller
      */
     private function createCreateForm(Ruangan $entity, $idas)
     {
-        $form = $this->createForm(new RuanganType($this->getDoctrine()->getManager()), $entity, array(
+        $form = $this->createForm(new RuanganType($this->getDoctrine()->getManager(), $idas), $entity, array(
             'action' => $this->generateUrl('ruangan_create', array('idas' => $idas)),
             'method' => 'POST',
         ));
@@ -129,12 +129,10 @@ class RuanganController extends Controller
         }
 
         $editForm = $this->createEditForm($entity);
-        $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('MonitorMonitorBundle:Ruangan:edit.html.twig', array(
             'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+            'form'   => $editForm->createView(),
         ));
     }
 
@@ -147,12 +145,13 @@ class RuanganController extends Controller
     */
     private function createEditForm(Ruangan $entity)
     {
-        $form = $this->createForm(new RuanganType(), $entity, array(
+        $form = $this->createForm(new RuanganType($this->getDoctrine()->getManager(), $entity->getAsrama()->getId()), $entity, array(
             'action' => $this->generateUrl('ruangan_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Update'));
+        $form->add('is_active', 'choice', array('label' => false, 'choices' => array('0' => 'Ditutup', '1' =>'Aktif'), 
+        'attr' => array('class' =>'form-control'), 'data' => $entity->getIsActive()));
 
         return $form;
     }
@@ -165,6 +164,7 @@ class RuanganController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('MonitorMonitorBundle:Ruangan')->find($id);
+        $as = $entity->getAsrama()->getId();
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Ruangan entity.');
@@ -177,7 +177,7 @@ class RuanganController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('ruangan_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('asrama_show', array('id' => $as)));
         }
 
         return $this->render('MonitorMonitorBundle:Ruangan:edit.html.twig', array(
@@ -198,6 +198,7 @@ class RuanganController extends Controller
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('MonitorMonitorBundle:Ruangan')->find($id);
+            $asr = $entity->getAsrama()->getId();
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Ruangan entity.');
@@ -207,7 +208,7 @@ class RuanganController extends Controller
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('ruangan'));
+        return $this->redirect($this->generateUrl('asrama_show', array('id' => $asr)));
     }
 
     /**
