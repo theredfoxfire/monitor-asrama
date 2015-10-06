@@ -33,10 +33,12 @@ class PenghuniController extends Controller
      * Creates a new Penghuni entity.
      *
      */
-    public function createAction(Request $request)
+    public function createAction(Request $request, $ru =null)
     {
+        $em = $this->getDoctrine()->getManager();
         $entity = new Penghuni();
-        $form = $this->createCreateForm($entity);
+        $rg = $em->getRepository('MonitorMonitorBundle:Ruangan')->find($ru);
+        $form = $this->createCreateForm($entity, $ru, $rg->getAsrama()->getId());
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -60,10 +62,10 @@ class PenghuniController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createCreateForm(Penghuni $entity)
+    private function createCreateForm(Penghuni $entity, $id, $as)
     {
-        $form = $this->createForm(new PenghuniType(), $entity, array(
-            'action' => $this->generateUrl('penghuni_create'),
+        $form = $this->createForm(new PenghuniType($this->getDoctrine()->getManager(), $id, $as), $entity, array(
+            'action' => $this->generateUrl('penghuni_create', array('ru' => $id)),
             'method' => 'POST',
         ));
 
@@ -76,10 +78,12 @@ class PenghuniController extends Controller
      * Displays a form to create a new Penghuni entity.
      *
      */
-    public function newAction()
+    public function newAction($id)
     {
+		$em = $this->getDoctrine()->getManager();
+		$ru = $em->getRepository('MonitorMonitorBundle:Ruangan')->find($id);
         $entity = new Penghuni();
-        $form   = $this->createCreateForm($entity);
+        $form   = $this->createCreateForm($entity, $id, $ru->getAsrama()->getId());
 
         return $this->render('MonitorMonitorBundle:Penghuni:new.html.twig', array(
             'entity' => $entity,

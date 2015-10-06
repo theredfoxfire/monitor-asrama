@@ -7,11 +7,11 @@ penghuni_show:
     defaults: { _controller: "MonitorMonitorBundle:Penghuni:show" }
 
 penghuni_new:
-    path:     /new
+    path:     /{id}/new
     defaults: { _controller: "MonitorMonitorBundle:Penghuni:new" }
 
 penghuni_create:
-    path:     /create
+    path:     /{ru}/create
     defaults: { _controller: "MonitorMonitorBundle:Penghuni:create" }
     methods:  POST
 

@@ -100,17 +100,30 @@ class RuanganController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('MonitorMonitorBundle:Ruangan')->find($id);
+        $entityRu = $em->getRepository('MonitorMonitorBundle:Ruangan')->find($id);
+        $entities = $em->getRepository('MonitorMonitorBundle:Penghuni')->getPenghuni($id);
+        $query = $em->getRepository('MonitorMonitorBundle:Penghuni')->getPenghuniQuery($id);
 
-        if (!$entity) {
+        if (!$entityRu) {
             throw $this->createNotFoundException('Unable to find Ruangan entity.');
         }
 
-        $deleteForm = $this->createDeleteForm($id);
+        $deleteForm = array();
+        foreach ($entities as $entity) {
+			$deleteForm[$entity->getId()] = $this->createDeletePenghuniForm($entity->getId())->createView();
+		}
+		
+		$paginator = $this->get('knp_paginator');
+		$pagination = $paginator->paginate(
+			$query,
+			$this->get('request')->query->get('page', 1),
+			25
+		);
 
         return $this->render('MonitorMonitorBundle:Ruangan:show.html.twig', array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
+			'entities' => $pagination,
+            'entityRu'      => $entityRu,
+            'deleteForm' => $deleteForm,
         ));
     }
 
@@ -226,4 +239,13 @@ class RuanganController extends Controller
             ->getForm()
         ;
     }
+    
+    private function createDeletePenghuniForm($id)
+    {
+		return $this->createFormBuilder()
+			->setAction($this->generateUrl('penghuni_delete', array('id' => $id)))
+			->setMethod('DELETE')
+			->getForm()
+			;
+	}
 }

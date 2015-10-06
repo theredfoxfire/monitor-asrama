@@ -21,11 +21,10 @@ Monitor\MonitorBundle\Entity\Asrama:
    type: string
    length: 255
    unique: true
- oneToOne:
+ oneToMany:
   user:
    targetEntity: User
    mappedBy: asrama
- oneToMany:
   ruangan:
    targetEntity: Ruangan
    mappedBy: asrama

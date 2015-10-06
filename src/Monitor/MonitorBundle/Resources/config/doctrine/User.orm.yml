@@ -16,7 +16,7 @@ Monitor\MonitorBundle\Entity\User:
    type: string
    length: 255
    unique: true
- oneToOne:
+ manyToOne:
   asrama:
    targetEntity: Asrama
    inversedBy: user

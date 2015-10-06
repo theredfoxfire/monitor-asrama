@@ -253,4 +253,12 @@ class Penghuni
     {
         $this->updated_at = new \DateTime();
     }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function setIsActiveValue()
+    {
+        $this->is_active = true;
+    }
 }

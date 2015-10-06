@@ -31,8 +31,8 @@ Monitor\MonitorBundle\Entity\Penghuni:
    targetEntity: Orang
    inversedBy: penghuni
    joinColumn:
-    name: ruangan_id
+    name: orang_id
     referencedColumnName: id
  lifecycleCallbacks:
-  prePersist: [setCreatedAtValue, setTokenValue ]
+  prePersist: [setCreatedAtValue, setTokenValue, setIsActiveValue ]
   preUpdate: [ setUpdatedAtValue ]

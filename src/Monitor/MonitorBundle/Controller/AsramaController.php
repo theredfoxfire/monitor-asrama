@@ -108,6 +108,10 @@ class AsramaController extends Controller
         $em = $this->getDoctrine()->getManager();
         
         $entityAs = $em->getRepository('MonitorMonitorBundle:Asrama')->find($id);
+        
+        if (!$entityAs) {
+			throw $this->createNotFoundException('Data asrama tidak ditemukan');
+		}
 
         $entities = $em->getRepository('MonitorMonitorBundle:Ruangan')->getRuangan($id);
         

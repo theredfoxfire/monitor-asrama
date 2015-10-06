@@ -10,4 +10,31 @@ namespace Monitor\MonitorBundle\Repository;
  */
 class PenghuniRepository extends \Doctrine\ORM\EntityRepository
 {
+	public function getPenghuni($idru)
+	{
+		$query = $this->getEntityManager()
+			->createQuery('
+				select p from MonitorMonitorBundle:Penghuni p 
+				inner join p.orang o
+				inner join p.ruangan r
+				where r.id = :idru
+				order by p.created_at asc
+			')->setParameters(array('idru' => $idru));
+		
+		return $query->getResult();
+	}
+	
+	public function getPenghuniQuery($idru)
+	{
+		$query = $this->getEntityManager()
+			->createQuery('
+				select p from MonitorMonitorBundle:Penghuni p
+				inner join p.orang o
+				inner join p.ruangan r
+				where r.id = :idru
+				order by p.created_at asc
+			')->setParameters(array('idru' => $idru));
+		
+		return $query;
+	}
 }
