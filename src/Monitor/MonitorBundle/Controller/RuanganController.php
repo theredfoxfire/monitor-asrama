@@ -217,7 +217,7 @@ class RuanganController extends Controller
                 throw $this->createNotFoundException('Unable to find Ruangan entity.');
             }
 
-            $em->remove($entity);
+            $entity->setIsDelete(true);
             $em->flush();
         }
 

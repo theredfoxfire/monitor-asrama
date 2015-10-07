@@ -24,9 +24,23 @@ class OrangController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('MonitorMonitorBundle:Orang')->findAll();
+        
+        $deleteForm = array();
+        foreach ($entities as $entity) {
+			$deleteForm[$entity->getId()] = $this->createDeleteForm($entity->getId())->createView();
+		}
+		
+		$paginator = $this->get('knp_paginator');
+		$query = $em->getRepository('MonitorMonitorBundle:Orang')->getOrangQuery();
+		$pagination = $paginator->paginate(
+			$query,
+			$this->get('request')->query->get('page', 1),
+			25
+		);
 
         return $this->render('MonitorMonitorBundle:Orang:index.html.twig', array(
-            'entities' => $entities,
+            'entities' => $pagination,
+            'deleteForm' => $deleteForm,
         ));
     }
     /**
@@ -44,7 +58,7 @@ class OrangController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('orang_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('orang'));
         }
 
         return $this->render('MonitorMonitorBundle:Orang:new.html.twig', array(
@@ -66,8 +80,6 @@ class OrangController extends Controller
             'action' => $this->generateUrl('orang_create'),
             'method' => 'POST',
         ));
-
-        $form->add('submit', 'submit', array('label' => 'Create'));
 
         return $form;
     }
@@ -147,8 +159,6 @@ class OrangController extends Controller
             'method' => 'PUT',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Update'));
-
         return $form;
     }
     /**
@@ -172,7 +182,7 @@ class OrangController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('orang_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('orang'));
         }
 
         return $this->render('MonitorMonitorBundle:Orang:edit.html.twig', array(
@@ -198,7 +208,7 @@ class OrangController extends Controller
                 throw $this->createNotFoundException('Unable to find Orang entity.');
             }
 
-            $em->remove($entity);
+            $entity->setIsDelete(true);
             $em->flush();
         }
 
@@ -217,7 +227,6 @@ class OrangController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('orang_delete', array('id' => $id)))
             ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm()
         ;
     }

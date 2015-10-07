@@ -46,7 +46,7 @@ class PenghuniController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('penghuni_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('ruangan_show', array('id' => $rg->getId())));
         }
 
         return $this->render('MonitorMonitorBundle:Penghuni:new.html.twig', array(
@@ -69,8 +69,6 @@ class PenghuniController extends Controller
             'method' => 'POST',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Create'));
-
         return $form;
     }
 
@@ -86,6 +84,7 @@ class PenghuniController extends Controller
         $form   = $this->createCreateForm($entity, $id, $ru->getAsrama()->getId());
 
         return $this->render('MonitorMonitorBundle:Penghuni:new.html.twig', array(
+			'ru' => $ru,
             'entity' => $entity,
             'form'   => $form->createView(),
         ));
@@ -127,13 +126,11 @@ class PenghuniController extends Controller
             throw $this->createNotFoundException('Unable to find Penghuni entity.');
         }
 
-        $editForm = $this->createEditForm($entity);
-        $deleteForm = $this->createDeleteForm($id);
+        $editForm = $this->createEditForm($entity, $entity->getRuangan()->getId(), $entity->getRuangan()->getAsrama()->getId());
 
         return $this->render('MonitorMonitorBundle:Penghuni:edit.html.twig', array(
             'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+            'form'   => $editForm->createView(),
         ));
     }
 
@@ -144,14 +141,19 @@ class PenghuniController extends Controller
     *
     * @return \Symfony\Component\Form\Form The form
     */
-    private function createEditForm(Penghuni $entity)
+    private function createEditForm(Penghuni $entity, $id, $as)
     {
-        $form = $this->createForm(new PenghuniType(), $entity, array(
+        $form = $this->createForm(new PenghuniType($this->getDoctrine()->getManager(), $id, $as), $entity, array(
             'action' => $this->generateUrl('penghuni_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Update'));
+        $form->add('is_active', 'choice', array(
+			'label' => false,
+			'choices' => array('0' => 'Tidak Aktif', '1' => 'Aktif'),
+			'data' => $entity->getIsActive(),
+			'attr' => array('class' => 'form-control')
+		));
 
         return $form;
     }
@@ -164,19 +166,18 @@ class PenghuniController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('MonitorMonitorBundle:Penghuni')->find($id);
+        $ru = $entity->getRuangan()->getId();
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Penghuni entity.');
         }
-
-        $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createEditForm($entity);
+        $editForm = $this->createEditForm($entity, $ru, $entity->getRuangan()->getAsrama()->getId());
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('penghuni_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('ruangan_show', array('id' => $ru)));
         }
 
         return $this->render('MonitorMonitorBundle:Penghuni:edit.html.twig', array(
@@ -197,16 +198,17 @@ class PenghuniController extends Controller
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('MonitorMonitorBundle:Penghuni')->find($id);
+            $ru = $entity->getRuangan()->getId();
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Penghuni entity.');
             }
 
-            $em->remove($entity);
+            $entity->setIsDelete(true);
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('penghuni'));
+        return $this->redirect($this->generateUrl('ruangan_show', array('id' => $ru)));
     }
 
     /**

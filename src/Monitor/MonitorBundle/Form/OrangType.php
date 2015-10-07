@@ -8,6 +8,18 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class OrangType extends AbstractType
 {
+	/**
+	 * @var string
+	 */
+	 protected $jk;
+	 
+	 /**
+	  * @param String OrangJk $jk
+	  */
+	public function __construct($jk = null)
+	{
+		$this->jk = $jk;
+	}
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -15,14 +27,25 @@ class OrangType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nama')
-            ->add('no_identitas')
-            ->add('jk')
-            ->add('alamat')
-            ->add('is_active')
-            ->add('created_at')
-            ->add('updated_at')
-            ->add('token')
+            ->add('nama', 'text', array(
+				'label' => false,
+				'attr' => array('class' => 'form-control'),
+			))
+            ->add('no_identitas', 'text', array(
+				'label' => false,
+				'attr' => array('class' => 'form-control'),
+            ))
+            ->add('jk', 'choice', array(
+				'choices' => array('Perempuan' => 'Perempuan', 'Laki-laki' => 'Laki-laki'),
+				'label' => false,
+				'empty_value' => '--Pilih Jenis Kelamin--',
+				'attr' => array('class' => 'form-control'),
+				'data' => $this->jk
+            ))
+            ->add('alamat', 'textarea', array(
+				'label' => false,
+				'attr' => array('class' => 'form-control'),
+            ))
         ;
     }
     

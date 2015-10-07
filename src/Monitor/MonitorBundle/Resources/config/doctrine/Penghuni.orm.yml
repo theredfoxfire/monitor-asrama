@@ -7,6 +7,9 @@ Monitor\MonitorBundle\Entity\Penghuni:
    type: integer
    generator: { strategy: AUTO }
  fields:
+  is_delete:
+   type: boolean
+   nullable: true
   tanggal:
    type: date
   is_active:
@@ -34,5 +37,5 @@ Monitor\MonitorBundle\Entity\Penghuni:
     name: orang_id
     referencedColumnName: id
  lifecycleCallbacks:
-  prePersist: [setCreatedAtValue, setTokenValue, setIsActiveValue ]
+  prePersist: [setCreatedAtValue, setTokenValue, setIsActiveValue, setIsDeleteValue ]
   preUpdate: [ setUpdatedAtValue ]

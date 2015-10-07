@@ -17,9 +17,12 @@ class PenghuniRepository extends \Doctrine\ORM\EntityRepository
 				select p from MonitorMonitorBundle:Penghuni p 
 				inner join p.orang o
 				inner join p.ruangan r
-				where r.id = :idru
+				where r.id = :idru and p.is_delete = :is
 				order by p.created_at asc
-			')->setParameters(array('idru' => $idru));
+			')->setParameters(array(
+				'idru' => $idru,
+				'is' => false
+			));
 		
 		return $query->getResult();
 	}
@@ -31,9 +34,12 @@ class PenghuniRepository extends \Doctrine\ORM\EntityRepository
 				select p from MonitorMonitorBundle:Penghuni p
 				inner join p.orang o
 				inner join p.ruangan r
-				where r.id = :idru
+				where r.id = :idru and p.is_delete = :is
 				order by p.created_at asc
-			')->setParameters(array('idru' => $idru));
+			')->setParameters(array(
+				'idru' => $idru,
+				'is' => false
+			));
 		
 		return $query;
 	}

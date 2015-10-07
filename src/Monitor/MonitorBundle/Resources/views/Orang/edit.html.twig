@@ -1,16 +1,69 @@
-{% extends '::base.html.twig' %}
+{% extends 'MonitorMonitorBundle:Default:index.html.twig' %}
 
-{% block body -%}
-    <h1>Orang edit</h1>
-
-    {{ form(edit_form) }}
-
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('orang') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
-</ul>
+{% block body %}
+		<div class='container'>
+		<div class='row'>
+			<div class='col-xs-12 col-md-12'>
+			<ol class="breadcrumb">
+				  <li><a href="{{ path('monitor_monitor_homepage') }}">Home</a></li>
+				  <li><a href="{{ path('orang') }}">Daftar Orang</a></li>
+				  <li class="active">Edit Data Dasar Orang</li>
+			</ol>
+				{{ form_start(form) }}
+				{{ form_errors(form) }}
+				<table class='table table-bordered table-hover'>
+					<tr>
+						<th colspan='4'>
+							Edit Data Dasar Orang
+						</th>
+					</tr>
+					<tr>
+						<td colspan='4'>
+							<div class="form-group">
+								<label for="exampleInputName2">Nama</label>
+								{{ form_widget(form.nama) }}
+							</div>
+								{{ form_errors(form.nama) }}
+						</td>
+					</tr>
+					<tr>
+						<td colspan='4'>
+							<div class="form-group">
+								<label for="exampleInputName2">No. ID/NIM</label>
+								{{ form_widget(form.no_identitas) }}
+							</div>
+								{{ form_errors(form.no_identitas) }}
+						</td>
+					</tr>
+					<tr>
+						<td colspan='4'>
+							<div class="form-group">
+								<label for="exampleInputName2">Jenis Kelamin</label>
+								{{ form_widget(form.jk) }}
+							</div>
+								{{ form_errors(form.jk) }}
+						</td>
+					</tr>
+					<tr>
+						<td colspan='4'>
+							<div class="form-group">
+								<label for="exampleInputName2">Alamat</label>
+								{{ form_widget(form.alamat) }}
+							</div>
+								{{ form_errors(form.alamat) }}
+						</td>
+					</tr>
+					<tr>
+						<td colspan='4'>
+							<div class="form-group">
+								<button type='submit' class='btn btn-primary pull-right'><i class='fa fa-check-square-o'></i> SIMPAN</a>
+							</div>
+						</td>
+					</tr>
+				</table>
+				{{ form_row(form._token) }}
+			{{ form_end(form) }}
+			</div>
+		</div>
+	</div>
 {% endblock %}

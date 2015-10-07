@@ -1,55 +1,48 @@
-{% extends '::base.html.twig' %}
+{% extends 'MonitorMonitorBundle:Default:index.html.twig' %}
 
-{% block body -%}
-    <h1>Orang list</h1>
-
-    <table class="records_list">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nama</th>
-                <th>No_identitas</th>
-                <th>Jk</th>
-                <th>Alamat</th>
-                <th>Is_active</th>
-                <th>Created_at</th>
-                <th>Updated_at</th>
-                <th>Token</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for entity in entities %}
-            <tr>
-                <td><a href="{{ path('orang_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-                <td>{{ entity.nama }}</td>
-                <td>{{ entity.noidentitas }}</td>
-                <td>{{ entity.jk }}</td>
-                <td>{{ entity.alamat }}</td>
-                <td>{{ entity.isactive }}</td>
-                <td>{% if entity.createdat %}{{ entity.createdat|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{% if entity.updatedat %}{{ entity.updatedat|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{{ entity.token }}</td>
-                <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('orang_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('orang_edit', { 'id': entity.id }) }}">edit</a>
-                    </li>
-                </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-        <ul>
-        <li>
-            <a href="{{ path('orang_new') }}">
-                Create a new entry
-            </a>
-        </li>
-    </ul>
-    {% endblock %}
+{% block body %}
+	<div class='container'>
+		<div class='row'>
+			<div class='col-xs-12 col-md-12'>
+				<ol class="breadcrumb">
+				  <li><a href="{{ path('monitor_monitor_homepage') }}">Home</a></li>
+				  <li class="active">Data Pokok Orang</li>
+				</ol>
+				<table class='table table-bordered table-hover'>
+					<tr>
+						<th colspan='6'>
+							Data Pokok Orang<a href="{{ path('orang_new') }}" class='btn btn-success pull-right'><i class='fa fa-plus'></i> TAMBAH</a>
+						</th>
+					</tr>
+					<tr>
+						<th width='5%'>No</th><th width='60%'>Nama</th><th>No. ID/NIM</th><th width='10%'>Status</th><th width='15%'>Action</th>
+					</tr>
+					{% set pg = app.request.query.get('page') %}
+					{% if pg == 1 or pg == null %}
+						{% set i = 1 %}
+					{% else %}
+						{% set i = 25 *( pg-1 ) + 1 %}
+					{% endif %}
+					{% for entity in entities %}
+					<tr>
+						<td>{{ i }}</td>
+						<td><a class='link' href="{{ path('orang_show', { 'id': entity.id }) }}">{{ entity.nama }}</a></td>
+						<td>{{ entity.noidentitas }}</td>
+						<td>{% if entity.isactive == 1 %} Aktif {% else %} Tidak Aktif {% endif %}</td>
+						<td>
+							<a href="{{ path('orang_edit', { 'id': entity.id }) }}"><button type='submit' class='btn btn-primary pull-left'><i class='fa fa-pencil-square-o'></i>Edit</button></a>
+							{{ form_start(deleteForm[entity.id], {'attr': {'onclick': 'return confirm("Yakin akan menghapus data ini?")'}}) }}
+								<button type='submit' class='btn btn-danger pull-left'><i class='fa fa-trash'></i>Hapus</button>
+							{{ form_end(deleteForm[entity.id]) }}
+						</td>
+					</tr>
+					{% set i = i+1 %}
+					{% endfor %}
+				</table>
+					<div class="text-center">
+						<h4>{{ knp_pagination_render(entities) }}</h4>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

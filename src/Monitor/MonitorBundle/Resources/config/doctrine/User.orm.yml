@@ -9,6 +9,9 @@ Monitor\MonitorBundle\Entity\User:
  fields:
   created_at:
    type: datetime
+  is_delete:
+   type: boolean
+   nullable: true
   updated_at:
    type: datetime
    nullable: true

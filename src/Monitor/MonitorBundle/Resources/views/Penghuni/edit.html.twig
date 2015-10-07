@@ -1,16 +1,71 @@
-{% extends '::base.html.twig' %}
+{% extends 'MonitorMonitorBundle:Default:index.html.twig' %}
 
-{% block body -%}
-    <h1>Penghuni edit</h1>
-
-    {{ form(edit_form) }}
-
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('penghuni') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
-</ul>
+{% block body %}
+		<div class='container'>
+		<div class='row'>
+			<div class='col-xs-12 col-md-12'>
+			<ol class="breadcrumb">
+				  <li><a href="{{ path('monitor_monitor_homepage') }}">Home</a></li>
+				  <li><a href="{{ path('asrama') }}">Asrama</a></li>
+				  <li><a href="{{ path('asrama_show', { 'id':entity.ruangan.asrama.id }) }}">Asrama {{ entity.ruangan.asrama.nama }}</a></li>
+				  <li><a href="{{ path('ruangan_show', { 'id': entity.ruangan.id }) }}">{{ entity.ruangan.nama }}</a></li>
+				  <li class="active">Edit Data Penghuni Ruangan</li>
+			</ol>
+				{{ form_start(form) }}
+				{{ form_errors(form) }}
+				<table class='table table-bordered table-hover'>
+					<tr>
+						<th colspan='4'>
+							Edit Data Penghuni Ruangan
+						</th>
+					</tr>
+					<tr>
+						<td colspan='4'>
+							<div class="form-group">
+								<label for="exampleInputName2">Tanggal</label>
+								{{ form_widget(form.tanggal) }}
+							</div>
+								{{ form_errors(form.tanggal) }}
+						</td>
+					</tr>
+					<tr>
+						<td colspan='4'>
+							<div class="form-group">
+								<label for="exampleInputName2">Penghuni</label>
+								{{ form_widget(form.orang) }}
+							</div>
+								{{ form_errors(form.orang) }}
+						</td>
+					</tr>
+					<tr>
+						<td colspan='4'>
+							<div class="form-group">
+								<label for="exampleInputName2">Status</label>
+								{{ form_widget(form.is_active) }}
+							</div>
+								{{ form_errors(form.is_active) }}
+						</td>
+					</tr>
+					<tr>
+						<td colspan='4'>
+							<div class="form-group">
+								<label for="exampleInputName2">Ruang</label>
+								{{ form_widget(form.ruangan) }}
+							</div>
+								{{ form_errors(form.ruangan) }}
+						</td>
+					</tr>
+					<tr>
+						<td colspan='4'>
+							<div class="form-group">
+								<button type='submit' class='btn btn-primary pull-right'><i class='fa fa-check-square-o'></i> SIMPAN</a>
+							</div>
+						</td>
+					</tr>
+				</table>
+				{{ form_row(form._token) }}
+			{{ form_end(form) }}
+			</div>
+		</div>
+	</div>
 {% endblock %}

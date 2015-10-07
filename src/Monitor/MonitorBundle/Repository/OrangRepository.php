@@ -10,4 +10,31 @@ namespace Monitor\MonitorBundle\Repository;
  */
 class OrangRepository extends \Doctrine\ORM\EntityRepository
 {
+	public function getOrang()
+	{
+		$query = $this->getEntityManager()
+			->createQuery('
+				select o from MonitorMonitorBundle:Orang o
+				where o.is_delete = :is
+				order by o.created_at, o.nama
+			')->setParameters(array(
+				'is' => false
+			));
+		
+		return $query->getResult();
+	}
+	
+	public function getOrangQuery()
+	{
+		$query = $this->getEntityManager()
+			->createQuery('
+				select o from MonitorMonitorBundle:Orang o
+				where o.is_delete = :is
+				order by o.created_at, o.nama
+			')->setParameters(array(
+				'is' => false
+			));
+		
+		return $query;
+	}
 }

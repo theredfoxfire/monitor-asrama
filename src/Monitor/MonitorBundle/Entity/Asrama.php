@@ -316,4 +316,41 @@ class Asrama
     {
         $this->ruangan->removeElement($ruangan);
     }
+    /**
+     * @var boolean
+     */
+    private $is_delete;
+
+
+    /**
+     * Set isDelete
+     *
+     * @param boolean $isDelete
+     *
+     * @return Asrama
+     */
+    public function setIsDelete($isDelete)
+    {
+        $this->is_delete = $isDelete;
+
+        return $this;
+    }
+
+    /**
+     * Get isDelete
+     *
+     * @return boolean
+     */
+    public function getIsDelete()
+    {
+        return $this->is_delete;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function setIsDeleteValue()
+    {
+        $this->is_delete = false;
+    }
 }

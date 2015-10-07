@@ -12,6 +12,9 @@ Monitor\MonitorBundle\Entity\Asrama:
    length: 255
   is_active:
    type: boolean
+  is_delete:
+   type: boolean
+   nullable: true
   created_at:
    type: datetime
   updated_at:
@@ -29,5 +32,5 @@ Monitor\MonitorBundle\Entity\Asrama:
    targetEntity: Ruangan
    mappedBy: asrama
  lifecycleCallbacks:
-  prePersist: [ setCreatedAtValue, setTokenValue, setIsActiveValue ]
+  prePersist: [ setCreatedAtValue, setTokenValue, setIsActiveValue, setIsDeleteValue ]
   preUpdate: [ setUpdatedAtValue ]

@@ -16,10 +16,13 @@ class RuanganRepository extends \Doctrine\ORM\EntityRepository
 			->createQuery('
 					select r from MonitorMonitorBundle:Ruangan r
 					inner join r.asrama a
-					where a.id = :idap
+					where a.id = :idap and r.is_delete = :is
 					order by r.created_at ASC
 				')
-			->setParameters(array('idap' => $idap));
+			->setParameters(array(
+				'idap' => $idap,
+				'is' => false
+			));
 		
 		return $query->getResult();
 	}
@@ -30,10 +33,13 @@ class RuanganRepository extends \Doctrine\ORM\EntityRepository
 			->createQuery('
 				select r from MonitorMonitorBundle:Ruangan r 
 				inner join r.asrama a
-				where a.id = :idap
+				where a.id = :idap and r.is_delete = :is
 				order by r.created_at ASC
 				')
-			->setParameters(array('idap' => $idap));
+			->setParameters(array(
+				'idap' => $idap,
+				'is' => false
+			));
 		
 		return $query;
 	}

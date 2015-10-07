@@ -45,7 +45,12 @@ class PenghuniType extends AbstractType
 		$eR = $em->getRepository('MonitorMonitorBundle:Ruangan');
         $builder
             ->add('tanggal','date', array(
-				'label' => false
+				'label' => false,
+				'widget' => 'single_text',
+				'format' => 'dd-MM-yyyy',
+				'attr' => array(
+					'class' => 'form-control date',
+				)
 			))
             ->add('ruangan', 'entity', array(
 				'class' => 'MonitorMonitorBundle:Ruangan',

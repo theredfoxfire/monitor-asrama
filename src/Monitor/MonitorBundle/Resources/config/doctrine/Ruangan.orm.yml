@@ -14,6 +14,9 @@ Monitor\MonitorBundle\Entity\Ruangan:
    type: boolean
   created_at:
    type: datetime
+  is_delete:
+   type: boolean
+   nullable: true
   updated_at:
    type: datetime
    nullable: true
@@ -33,5 +36,5 @@ Monitor\MonitorBundle\Entity\Ruangan:
    targetEntity: Penghuni
    mappedBy: ruangan
  lifecycleCallbacks:
-  prePersist: [setCreatedAtValue, setTokenValue, setIsActiveValue ]
+  prePersist: [setCreatedAtValue, setTokenValue, setIsActiveValue, setIsDeleteValue ]
   preUpdate: [ setUpdatedAtValue ]

@@ -15,8 +15,11 @@ class AsramaRepository extends \Doctrine\ORM\EntityRepository
 		$query = $this->getEntityManager()
 			->createQuery('
 				SELECT a FROM MonitorMonitorBundle:Asrama a
+				where a.is_delete = :is 
 				ORDER BY a.created_at ASC
-			');
+			')->setParameters(array(
+				'is' => false
+			));
 		return $query;
 	}
 }
