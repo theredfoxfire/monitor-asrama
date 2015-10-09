@@ -12,12 +12,12 @@
 				</ol>
 				<table class='table table-bordered table-hover'>
 					<tr>
-						<th colspan='6'>
+						<th colspan='7'>
 							Daftar Penghuni di Ruang {{ entityRu.nama }}<a href="{{ path('penghuni_new', {'id': entityRu.id}) }}" class='btn btn-success pull-right'><i class='fa fa-plus'></i> TAMBAH</a>
 						</th>
 					</tr>
 					<tr>
-						<th width='5%'>No</th><th width='50%'>Nama</th><th>No. ID/NIM</th><th>Tanggal</th><th width='10%'>Status</th><th width='15%'>Action</th>
+						<th width='5%'>No</th><th width='40%'>Nama</th><th>Jenis Kelamin</th><th>No. ID/NIM</th><th>Tanggal</th><th width='10%'>Status</th><th width='15%'>Action</th>
 					</tr>
 					{% set pg = app.request.query.get('page') %}
 					{% if pg == 1 or pg == null %}
@@ -28,7 +28,8 @@
 					{% for entity in entities %}
 					<tr>
 						<td>{{ i }}</td>
-						<td><a class='link' href="{{ path('orang_show', { 'id': entity.orang.id }) }}">{{ entity.orang.nama }}</a></td>
+						<td><a class='link' target='_blank' href="{{ path('orang_show', { 'id': entity.orang.id }) }}">{{ entity.orang.nama }}</a></td>
+						<td>{{ entity.orang.jk }}</td>
 						<td>{{ entity.orang.noidentitas }}</td>
 						<td>{{ entity.tanggal|date('d-m-Y') }}</td>
 						<td>{% if entity.isactive == 1 %} Aktif {% else %} Tidak Aktif {% endif %}</td>

@@ -36,13 +36,12 @@ class PenghuniController extends Controller
     public function createAction(Request $request, $ru =null)
     {
         $em = $this->getDoctrine()->getManager();
-        $entity = new Penghuni();
+        $entity = new Penghuni($em);
         $rg = $em->getRepository('MonitorMonitorBundle:Ruangan')->find($ru);
         $form = $this->createCreateForm($entity, $ru, $rg->getAsrama()->getId());
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
 
@@ -80,7 +79,7 @@ class PenghuniController extends Controller
     {
 		$em = $this->getDoctrine()->getManager();
 		$ru = $em->getRepository('MonitorMonitorBundle:Ruangan')->find($id);
-        $entity = new Penghuni();
+        $entity = new Penghuni($em);
         $form   = $this->createCreateForm($entity, $id, $ru->getAsrama()->getId());
 
         return $this->render('MonitorMonitorBundle:Penghuni:new.html.twig', array(
@@ -143,7 +142,7 @@ class PenghuniController extends Controller
     */
     private function createEditForm(Penghuni $entity, $id, $as)
     {
-        $form = $this->createForm(new PenghuniType($this->getDoctrine()->getManager(), $id, $as), $entity, array(
+        $form = $this->createForm(new PenghuniType($this->getDoctrine()->getManager(), $id, $as, $edit=true), $entity, array(
             'action' => $this->generateUrl('penghuni_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));

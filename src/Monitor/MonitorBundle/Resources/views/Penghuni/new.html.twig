@@ -16,7 +16,7 @@
 				<table class='table table-bordered table-hover'>
 					<tr>
 						<th colspan='4'>
-							Tambah Data Penghuni Ruangan
+							Tambah Data Penghuni Ruangan 
 						</th>
 					</tr>
 					<tr>
@@ -32,7 +32,7 @@
 						<td colspan='4'>
 							<div class="form-group">
 								<label for="exampleInputName2">Penghuni</label>
-								{{ form_widget(form.orang) }}
+								{{ form_widget(form.orang) }} <br><a href="{{ path('orang_new') }}" target="_blank" class="btn btn-success pull-left">Tambah Data Orang Baru</a>
 							</div>
 								{{ form_errors(form.orang) }}
 						</td>
@@ -59,4 +59,14 @@
 			</div>
 		</div>
 	</div>
+	<script>
+	$(function() {
+		$('#monitor_monitorbundle_penghuni_orang').autocomplete({
+			source: "{{ path('orang_search') }}",
+			minLength: 2,
+			select: function() {
+			}
+		});
+	});
+	</script>
 {% endblock %}

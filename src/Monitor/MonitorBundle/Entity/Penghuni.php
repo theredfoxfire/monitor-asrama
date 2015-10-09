@@ -4,6 +4,8 @@ namespace Monitor\MonitorBundle\Entity;
 
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\EntityManager;
+
 /**
  * Penghuni
  */
@@ -43,12 +45,25 @@ class Penghuni
      * @var \Monitor\MonitorBundle\Entity\Ruangan
      */
     private $ruangan;
+    
+    /**
+     * @var Doctrine\ORM\EntityManager
+     */
+    private $entityManager;
 
     /**
      * @var \Monitor\MonitorBundle\Entity\Orang
      */
     private $orang;
 
+	/**
+	 * Get constructor EntityManager
+	 * return instance EntityManager 
+	 */
+	public function __construct(EntityManager $entityManager = null)
+	{
+		$this->entityManager = $entityManager;
+	}
 
     /**
      * Get id
@@ -207,13 +222,20 @@ class Penghuni
     /**
      * Set orang
      *
-     * @param \Monitor\MonitorBundle\Entity\Orang $orang
+     * @param String $orang
      *
      * @return Penghuni
      */
-    public function setOrang(\Monitor\MonitorBundle\Entity\Orang $orang = null)
+    public function setOrang( $orang = null)
     {
-        $this->orang = $orang;
+		if (is_object($orang)){
+			$this->orang = $orang;
+		} elseif ($this->entityManager != null) {
+			$arrOrang = explode('-',$orang);
+			$id = $arrOrang[0];
+			$orang = $this->entityManager->getRepository('MonitorMonitorBundle:Orang')->findOneById($id);
+			$this->orang = $orang;
+		}
 
         return $this;
     }

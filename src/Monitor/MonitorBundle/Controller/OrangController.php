@@ -3,6 +3,7 @@
 namespace Monitor\MonitorBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Monitor\MonitorBundle\Entity\Orang;
@@ -136,12 +137,10 @@ class OrangController extends Controller
         }
 
         $editForm = $this->createEditForm($entity);
-        $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('MonitorMonitorBundle:Orang:edit.html.twig', array(
             'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+            'form'   => $editForm->createView(),
         ));
     }
 
@@ -154,7 +153,7 @@ class OrangController extends Controller
     */
     private function createEditForm(Orang $entity)
     {
-        $form = $this->createForm(new OrangType(), $entity, array(
+        $form = $this->createForm(new OrangType($entity->getJk()), $entity, array(
             'action' => $this->generateUrl('orang_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
@@ -230,4 +229,25 @@ class OrangController extends Controller
             ->getForm()
         ;
     }
+    
+    /**
+     * @param j-Query request param $request
+     */
+    public function autocompleteAction(Request $request)
+    {
+		$names = array();
+		$term = trim(strip_tags($request->get('term')));
+		
+		$em = $this->getDoctrine()->getManager();
+		$entities = $em->getRepository('MonitorMonitorBundle:Orang')->getSelectedOrang($term);
+		
+		foreach ($entities as $entity) {
+			$names[] = $entity->getId().'-'.$entity->getNama();
+		}
+		
+		$response = new JsonResponse();
+		$response->setData($names);
+		
+		return $response;
+	}
 }

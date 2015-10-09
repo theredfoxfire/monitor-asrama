@@ -24,15 +24,21 @@ class PenghuniType extends AbstractType
 	protected $ru;
 	
 	/**
+	 * @var boolean
+	 */
+	protected $edit;
+	
+	/**
 	 * @param OrmEntityManager $em
 	 * @param IdRuangan $ru
 	 * @param IdAsrama $asr
 	 */
-	public function __construct($em = null, $ru = null, $asr = null)
+	public function __construct($em = null, $ru = null, $asr = null, $edit = null)
 	{
 		$this->em = $em;
 		$this->ru = $ru;
 		$this->asr = $asr;
+		$this->edit = $edit;
 	}
 	
     /**
@@ -56,26 +62,31 @@ class PenghuniType extends AbstractType
 				'class' => 'MonitorMonitorBundle:Ruangan',
 				'query_builder' => function($er) use ($eR) {
 					return $er->createQueryBuilder('r')
-						->innerJoin('r.asrama', 'a')
-						->where('a.id = :asr and r.is_active = :is')
-						->setParameters(array('asr' => $this->asr, 'is' => 1));
+						->where('r.id = :asr and r.is_active = :is')
+						->setParameters(array('asr' => $this->ru, 'is' => 1));
 				},
 				'property' => 'nama',
-				'empty_value' => '--Pilih Ruang--',
-				'data' => $em->getReference('MonitorMonitorBundle:Ruangan', $this->ru),
 				'attr' => array('class' => 'form-control'),
 				'required' => true,
 				'label' => false
-            ))
-            ->add('orang', 'entity', array(
-				'class' => 'MonitorMonitorBundle:Orang',
-				'property' => 'nama',
-				'empty_value' => '--Pilih Orang--',
-				'attr' => array('class' => 'form-control'),
-				'required' => true,
-				'label' => false
-            ))
-        ;
+            ));
+            if ($this->edit == true) {
+				$builder->add('orang', 'entity', array(
+					'class' => 'MonitorMonitorBundle:Orang',
+					'property' => 'nama',
+					'empty_value' => '--Pilih Orang--',
+					'attr' => array('class' => 'form-control', 'disabled' => true),
+					'required' => true,
+					'label' => false
+				));
+			} else {
+				$builder->add('orang', 'text', array(
+					
+					'attr' => array('class' => 'form-control'),
+					'required' => true,
+					'label' => false
+				));
+			}
     }
     
     /**

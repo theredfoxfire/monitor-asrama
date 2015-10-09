@@ -37,4 +37,23 @@ class OrangRepository extends \Doctrine\ORM\EntityRepository
 		
 		return $query;
 	}
+	
+	public function getSelectedOrang($key = null)
+	{
+		$query = $this->getEntityManager()
+			->createQuery('
+				select o from MonitorMonitorBundle:Orang o
+				where o.nama like :key
+				and o.is_delete = :is
+				order by o.created_at, o.nama
+			')
+			->setParameters(
+				array(
+					'is' => false,
+					'key' => '%'.$key.'%',
+				)
+			);
+			
+		return $query->getResult();
+	}
 }

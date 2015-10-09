@@ -28,3 +28,6 @@ orang_delete:
     path:     /{id}/delete
     defaults: { _controller: "MonitorMonitorBundle:Orang:delete" }
     methods:  [POST, DELETE]
+orang_search:
+ path: /search
+ defaults: { _controller: "MonitorMonitorBundle:Orang:autocomplete" }
