@@ -18,6 +18,7 @@ Monitor\MonitorBundle\Entity\Orang:
    length: 20
   alamat:
    type: text
+   nullable: true
   is_active:
    type: boolean
   created_at:
@@ -32,6 +33,13 @@ Monitor\MonitorBundle\Entity\Orang:
    type: string
    length: 255
    unique: true
+ manyToOne:
+  kabupaten:
+   targetEntity: Kabupaten
+   inversedBy: orang
+   joinColumn:
+    name: kabupaten_id
+    referencedColumnName: id
  oneToMany:
   penghuni:
    targetEntity: Penghuni

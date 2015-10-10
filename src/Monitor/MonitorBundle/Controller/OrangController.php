@@ -4,6 +4,7 @@ namespace Monitor\MonitorBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Monitor\MonitorBundle\Entity\Orang;
@@ -249,5 +250,24 @@ class OrangController extends Controller
 		$response->setData($names);
 		
 		return $response;
+	}
+	
+	public function ajaxAction(Request $request)
+	{
+		if (!$request->isXmlHttpRequest()) {
+			throw new NotFoundException();
+		}
+		
+		$id = $request->query->get('provinsi_id');
+		
+		$result = array();
+		
+		$repo = $this->getDoctrine()->getManager()->getRepository('MonitorMonitorBundle:Kabupaten');
+		$kabupaten = $repo->finByProvinsi($id, array('name' => 'asc'));
+		foreach ($kabupaten as $kab) {
+			$result[$kab->getName()] = $kab->getId();
+		}
+		
+		return new JsonResponse($result);
 	}
 }

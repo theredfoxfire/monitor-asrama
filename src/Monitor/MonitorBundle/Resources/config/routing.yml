@@ -1,3 +1,11 @@
+monitor_monitor_kabupaten:
+    resource: "@MonitorMonitorBundle/Resources/config/routing/kabupaten.yml"
+    prefix:   /kabupaten
+
+monitor_monitor_provinsi:
+    resource: "@MonitorMonitorBundle/Resources/config/routing/provinsi.yml"
+    prefix:   /provinsi
+
 monitor_monitor_orang:
     resource: "@MonitorMonitorBundle/Resources/config/routing/orang.yml"
     prefix:   /orang

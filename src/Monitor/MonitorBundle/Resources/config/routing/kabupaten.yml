@@ -1,0 +1,30 @@
+kabupaten:
+    path:     /
+    defaults: { _controller: "MonitorMonitorBundle:Kabupaten:index" }
+
+kabupaten_show:
+    path:     /{id}/show
+    defaults: { _controller: "MonitorMonitorBundle:Kabupaten:show" }
+
+kabupaten_new:
+    path:     /new
+    defaults: { _controller: "MonitorMonitorBundle:Kabupaten:new" }
+
+kabupaten_create:
+    path:     /create
+    defaults: { _controller: "MonitorMonitorBundle:Kabupaten:create" }
+    methods:  POST
+
+kabupaten_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "MonitorMonitorBundle:Kabupaten:edit" }
+
+kabupaten_update:
+    path:     /{id}/update
+    defaults: { _controller: "MonitorMonitorBundle:Kabupaten:update" }
+    methods:  [POST, PUT]
+
+kabupaten_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "MonitorMonitorBundle:Kabupaten:delete" }
+    methods:  [POST, DELETE]

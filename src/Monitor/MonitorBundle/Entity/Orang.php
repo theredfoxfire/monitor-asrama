@@ -372,4 +372,33 @@ class Orang
     {
         $this->is_delete = false;
     }
+    /**
+     * @var \Monitor\MonitorBundle\Entity\Kabupaten
+     */
+    private $kabupaten;
+
+
+    /**
+     * Set kabupaten
+     *
+     * @param \Monitor\MonitorBundle\Entity\Kabupaten $kabupaten
+     *
+     * @return Orang
+     */
+    public function setKabupaten(\Monitor\MonitorBundle\Entity\Kabupaten $kabupaten = null)
+    {
+        $this->kabupaten = $kabupaten;
+
+        return $this;
+    }
+
+    /**
+     * Get kabupaten
+     *
+     * @return \Monitor\MonitorBundle\Entity\Kabupaten
+     */
+    public function getKabupaten()
+    {
+        return $this->kabupaten;
+    }
 }

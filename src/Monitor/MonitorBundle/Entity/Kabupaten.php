@@ -2,12 +2,10 @@
 
 namespace Monitor\MonitorBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-
 /**
- * Ruangan
+ * Kabupaten
  */
-class Ruangan
+class Kabupaten
 {
     /**
      * @var integer
@@ -17,7 +15,12 @@ class Ruangan
     /**
      * @var string
      */
-    private $nama;
+    private $name;
+
+    /**
+     * @var boolean
+     */
+    private $is_delete;
 
     /**
      * @var boolean
@@ -40,21 +43,21 @@ class Ruangan
     private $token;
 
     /**
-     * @var \Monitor\MonitorBundle\Entity\Asrama
-     */
-    private $asrama;
-
-    /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $penghuni;
+    private $orang;
+
+    /**
+     * @var \Monitor\MonitorBundle\Entity\Provinsi
+     */
+    private $provinsi;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->penghuni = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->orang = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -68,27 +71,51 @@ class Ruangan
     }
 
     /**
-     * Set nama
+     * Set name
      *
-     * @param string $nama
+     * @param string $name
      *
-     * @return Ruangan
+     * @return Kabupaten
      */
-    public function setNama($nama)
+    public function setName($name)
     {
-        $this->nama = $nama;
+        $this->name = $name;
 
         return $this;
     }
 
     /**
-     * Get nama
+     * Get name
      *
      * @return string
      */
-    public function getNama()
+    public function getName()
     {
-        return $this->nama;
+        return $this->name;
+    }
+
+    /**
+     * Set isDelete
+     *
+     * @param boolean $isDelete
+     *
+     * @return Kabupaten
+     */
+    public function setIsDelete($isDelete)
+    {
+        $this->is_delete = $isDelete;
+
+        return $this;
+    }
+
+    /**
+     * Get isDelete
+     *
+     * @return boolean
+     */
+    public function getIsDelete()
+    {
+        return $this->is_delete;
     }
 
     /**
@@ -96,7 +123,7 @@ class Ruangan
      *
      * @param boolean $isActive
      *
-     * @return Ruangan
+     * @return Kabupaten
      */
     public function setIsActive($isActive)
     {
@@ -120,7 +147,7 @@ class Ruangan
      *
      * @param \DateTime $createdAt
      *
-     * @return Ruangan
+     * @return Kabupaten
      */
     public function setCreatedAt($createdAt)
     {
@@ -144,7 +171,7 @@ class Ruangan
      *
      * @param \DateTime $updatedAt
      *
-     * @return Ruangan
+     * @return Kabupaten
      */
     public function setUpdatedAt($updatedAt)
     {
@@ -168,7 +195,7 @@ class Ruangan
      *
      * @param string $token
      *
-     * @return Ruangan
+     * @return Kabupaten
      */
     public function setToken($token)
     {
@@ -188,68 +215,68 @@ class Ruangan
     }
 
     /**
-     * Set asrama
+     * Add orang
      *
-     * @param \Monitor\MonitorBundle\Entity\Asrama $asrama
+     * @param \Monitor\MonitorBundle\Entity\Orang $orang
      *
-     * @return Ruangan
+     * @return Kabupaten
      */
-    public function setAsrama(\Monitor\MonitorBundle\Entity\Asrama $asrama = null)
+    public function addOrang(\Monitor\MonitorBundle\Entity\Orang $orang)
     {
-        $this->asrama = $asrama;
+        $this->orang[] = $orang;
 
         return $this;
     }
 
     /**
-     * Get asrama
+     * Remove orang
      *
-     * @return \Monitor\MonitorBundle\Entity\Asrama
+     * @param \Monitor\MonitorBundle\Entity\Orang $orang
      */
-    public function getAsrama()
+    public function removeOrang(\Monitor\MonitorBundle\Entity\Orang $orang)
     {
-        return $this->asrama;
+        $this->orang->removeElement($orang);
     }
 
     /**
-     * Add penghuni
-     *
-     * @param \Monitor\MonitorBundle\Entity\Penghuni $penghuni
-     *
-     * @return Ruangan
-     */
-    public function addPenghuni(\Monitor\MonitorBundle\Entity\Penghuni $penghuni)
-    {
-        $this->penghuni[] = $penghuni;
-
-        return $this;
-    }
-
-    /**
-     * Remove penghuni
-     *
-     * @param \Monitor\MonitorBundle\Entity\Penghuni $penghuni
-     */
-    public function removePenghuni(\Monitor\MonitorBundle\Entity\Penghuni $penghuni)
-    {
-        $this->penghuni->removeElement($penghuni);
-    }
-
-    /**
-     * Get penghuni
+     * Get orang
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getPenghuni()
+    public function getOrang()
     {
-        return $this->penghuni;
+        return $this->orang;
+    }
+
+    /**
+     * Set provinsi
+     *
+     * @param \Monitor\MonitorBundle\Entity\Provinsi $provinsi
+     *
+     * @return Kabupaten
+     */
+    public function setProvinsi(\Monitor\MonitorBundle\Entity\Provinsi $provinsi = null)
+    {
+        $this->provinsi = $provinsi;
+
+        return $this;
+    }
+
+    /**
+     * Get provinsi
+     *
+     * @return \Monitor\MonitorBundle\Entity\Provinsi
+     */
+    public function getProvinsi()
+    {
+        return $this->provinsi;
     }
     /**
      * @ORM\PrePersist
      */
     public function setCreatedAtValue()
     {
-        $this->created_at = new \DateTime();
+        // Add your code here
     }
 
     /**
@@ -257,18 +284,7 @@ class Ruangan
      */
     public function setTokenValue()
     {
-        if(!$this->getToken()) {
-            $st = date('Y-m-d H:i:s');
-			$this->token = sha1($st.rand(11111, 99999));
-        }
-    }
-
-    /**
-     * @ORM\PreUpdate
-     */
-    public function setUpdatedAtValue()
-    {
-        $this->updated_at = new \DateTime();
+        // Add your code here
     }
 
     /**
@@ -276,36 +292,7 @@ class Ruangan
      */
     public function setIsActiveValue()
     {
-        $this->is_active = true;
-    }
-    /**
-     * @var boolean
-     */
-    private $is_delete;
-
-
-    /**
-     * Set isDelete
-     *
-     * @param boolean $isDelete
-     *
-     * @return Ruangan
-     */
-    public function setIsDelete($isDelete)
-    {
-        $this->is_delete = $isDelete;
-
-        return $this;
-    }
-
-    /**
-     * Get isDelete
-     *
-     * @return boolean
-     */
-    public function getIsDelete()
-    {
-        return $this->is_delete;
+        // Add your code here
     }
 
     /**
@@ -313,6 +300,15 @@ class Ruangan
      */
     public function setIsDeleteValue()
     {
-        $this->is_delete = false;
+        // Add your code here
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function setUpdatedAtValue()
+    {
+        // Add your code here
     }
 }
+

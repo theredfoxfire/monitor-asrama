@@ -1,0 +1,30 @@
+provinsi:
+    path:     /
+    defaults: { _controller: "MonitorMonitorBundle:Provinsi:index" }
+
+provinsi_show:
+    path:     /{id}/show
+    defaults: { _controller: "MonitorMonitorBundle:Provinsi:show" }
+
+provinsi_new:
+    path:     /new
+    defaults: { _controller: "MonitorMonitorBundle:Provinsi:new" }
+
+provinsi_create:
+    path:     /create
+    defaults: { _controller: "MonitorMonitorBundle:Provinsi:create" }
+    methods:  POST
+
+provinsi_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "MonitorMonitorBundle:Provinsi:edit" }
+
+provinsi_update:
+    path:     /{id}/update
+    defaults: { _controller: "MonitorMonitorBundle:Provinsi:update" }
+    methods:  [POST, PUT]
+
+provinsi_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "MonitorMonitorBundle:Provinsi:delete" }
+    methods:  [POST, DELETE]

@@ -31,3 +31,6 @@ orang_delete:
 orang_search:
  path: /search
  defaults: { _controller: "MonitorMonitorBundle:Orang:autocomplete" }
+provinsi_ajax_call:
+ path: /provinsi_call
+ defaults: { _controller: "MonitorMonitorBundle:Orang:ajax" }

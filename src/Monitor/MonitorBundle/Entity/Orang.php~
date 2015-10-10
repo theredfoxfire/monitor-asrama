@@ -364,4 +364,12 @@ class Orang
     {
         $this->is_active = true;
     }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function setIsDeleteValue()
+    {
+        $this->is_delete = false;
+    }
 }

@@ -1,0 +1,39 @@
+Monitor\MonitorBundle\Entity\Kabupaten:
+ type: entity
+ table: kabupaten
+ id:
+  id:
+   type: integer
+   generator: { strategy: AUTO }
+ fields:
+  name:
+   type: string
+   length: 255
+  is_delete:
+   type: boolean
+   nullable: true
+  is_active:
+   type: boolean
+  created_at:
+   type: datetime
+  updated_at:
+   type: datetime
+   nullable: true
+  token:
+   type: string
+   length: 255
+   unique: true
+ manyToOne:
+  provinsi:
+   targetEntity: Provinsi
+   inversedBy: kabupaten
+   joinColumn:
+    name: provinsi_id
+    referencedColumnName: id
+ oneToMany:
+  orang:
+   targetEntity: Orang
+   mappedBy: kabupaten
+ lifecycleCallbacks:
+  prePersist: [ setCreatedAtValue, setTokenValue, setIsActiveValue, setIsDeleteValue ]
+  preUpdate: [ setUpdatedAtValue ]
