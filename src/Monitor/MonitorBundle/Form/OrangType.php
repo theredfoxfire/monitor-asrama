@@ -3,7 +3,7 @@
 namespace Monitor\MonitorBundle\Form;
 
 use Doctrine\ORM\EntityManager;
-use Lc\LcBundle\Entity\Provinsi;
+use Monitor\MonitorBundle\Entity\Provinsi;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -59,66 +59,57 @@ class OrangType extends AbstractType
             ))
         ;
         
+        // Add listeners
         $builder->addEventListener(FormEvents::PRE_SET_DATA, array($this, 'onPreSetData'));
         $builder->addEventListener(FormEvents::PRE_SUBMIT, array($this, 'onPreSubmit'));
     }
     
-    /**
-     * @param FromInterface $form
-     * @param EntityProvinsi $provinsi
-     */
-    protected function addElements(FormInterface $form, Provinsi $provinsi = null)
-    {
-		$form->add('provinsi', 'entity', array(
-				'attr' => array('class' => 'form-control'),
-				'data' => $provinsi,
-				'empty_value' => '--Pilih Asal Provinsi--',
-				'class' => 'MonitorMonitorBundle:Provinsi',
-				'mapped' => false,
-				'label' => false
-			)
-		);
-		
-		$kabupaten = array();
-		if ($provinsi) {
-			
-			$repo = $this->em->getRepository('MonitorMonitorBundle:Kabupaten');
-			$kabupaten = $repo->findByProvinsi($provinsi, array('name' => 'asc'));
-		}
-		
-		$form->add('kabupaten', 'entity', array(
-				'attr' => array('class' => 'form-control'),
-				'empty_value' => '--Pilih Provinsi Dulu--',
-				'class' => 'MonitorMonitorBundle:Kabupaten',
-				'choices' => $kabupaten,
-				'label' => false
-			)
-		);
-	}
+     protected function addElements(FormInterface $form, Provinsi $provinsi = null) {
+        // Add the province element
+        $form->add('provinsi', 'entity', array(
+			'attr'=>array('class'=>'form-control', 'placeholder'=>'Provinsi Anda'),
+            'data' => $provinsi,
+            'required'=> false,
+            'empty_value' => '-- Pilih Provinsi --',
+            'class' => 'MonitorMonitorBundle:Provinsi',
+            'mapped' => false)
+        );
+
+        // Cities are empty, unless we actually supplied a province
+        $cities = array();
+        if ($provinsi) {
+            // Fetch the cities from specified province
+            $repo = $this->em->getRepository('MonitorMonitorBundle:Kabupaten');
+            $cities = $repo->findByProvinsi($provinsi, array('name' => 'asc'));
+        }
+
+        // Add the city element
+        $form->add('kabupaten', 'entity', array(
+			'attr'=>array('class'=>'form-control', 'placeholder'=>'Kota/Kabupaten Anda'),
+			'required'=> false,
+            'empty_value' => '-- Pilih provinsi dulu --',
+            'class' => 'MonitorMonitorBundle:Kabupaten',
+            'choices' => $cities,
+        ));
+    }
     
-    /**
-     * @param FormEvent $event
-     */
-    protected function onPreSubmit(FormEvent $event)
-    {
-		$form = $event->getForm();
-		$data = $evetn->getData();
-		
-		$provinsi = $this->em->getRepository('MonitorMonitorBundle:Provinsi')->find($data['provinsi']);
-		$this->addElements($form, $provinsi);
-	}
+    function onPreSubmit(FormEvent $event) {
+        $form = $event->getForm();
+        $data = $event->getData();
+
+        // Note that the data is not yet hydrated into the entity.
+        $province = $this->em->getRepository('MonitorMonitorBundle:Provinsi')->find($data['provinsi']);
+        $this->addElements($form, $provinsi);
+    }
     
-    /**
-     * @param FormEvent $event
-     */
-    public function onPreSetData(FormEvent $event)
-    {
-		$form = $event->getForm();
-		$kabupaten = $event->getData();
-		
-		$provinsi = $kabupaten->getKabupaten() ? $kabupaten->getKabupaten->getProvinsi() : null;
-		$this->addElements($form, $provinsi);
-	}
+    function onPreSetData(FormEvent $event) {
+        $account = $event->getData();
+        $form = $event->getForm();
+
+        // We might have an empty account (when we insert a new account, for instance)
+        $provinsi = $account->getKabupaten() ? $account->getKabupaten()->getProvinsi() : null;
+        $this->addElements($form, $provinsi);
+    }
     
     /**
      * @param OptionsResolverInterface $resolver

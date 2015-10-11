@@ -276,7 +276,7 @@ class Kabupaten
      */
     public function setCreatedAtValue()
     {
-        // Add your code here
+        $this->created_at = new \DateTime();
     }
 
     /**
@@ -284,7 +284,10 @@ class Kabupaten
      */
     public function setTokenValue()
     {
-        // Add your code here
+        if (!$this->getToken()) {
+            $st = date('Y-m-d H:i:s');
+			$this->token = sha1($st.rand(11111, 99999));
+        }
     }
 
     /**
@@ -292,7 +295,7 @@ class Kabupaten
      */
     public function setIsActiveValue()
     {
-        // Add your code here
+        $this->is_active = true;
     }
 
     /**
@@ -300,7 +303,7 @@ class Kabupaten
      */
     public function setIsDeleteValue()
     {
-        // Add your code here
+        $this->is_delete = false;
     }
 
     /**
@@ -308,7 +311,12 @@ class Kabupaten
      */
     public function setUpdatedAtValue()
     {
-        // Add your code here
+        $this->updated_at = new \DateTime();
     }
+    
+    public function __toString()
+    {
+		return $this->getName() ? $this->getName() : "";
+	}
 }
 

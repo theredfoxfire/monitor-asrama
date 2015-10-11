@@ -47,6 +47,24 @@
 					<tr>
 						<td colspan='4'>
 							<div class="form-group">
+								<label for="exampleInputName2">Asal Provinsi</label>
+								{{ form_widget(form.provinsi) }}
+							</div>
+								{{ form_errors(form.provinsi) }}
+						</td>
+					</tr>
+					<tr>
+						<td colspan='4'>
+							<div class="form-group">
+								<label for="exampleInputName2">Asal Kabupaten</label>
+								{{ form_widget(form.kabupaten) }}
+							</div>
+								{{ form_errors(form.kabupaten) }}
+						</td>
+					</tr>
+					<tr>
+						<td colspan='4'>
+							<div class="form-group">
 								<label for="exampleInputName2">Alamat</label>
 								{{ form_widget(form.alamat) }}
 							</div>

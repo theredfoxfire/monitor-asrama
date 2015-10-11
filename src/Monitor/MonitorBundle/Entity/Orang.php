@@ -372,6 +372,7 @@ class Orang
     {
         $this->is_delete = false;
     }
+    
     /**
      * @var \Monitor\MonitorBundle\Entity\Kabupaten
      */

@@ -247,7 +247,7 @@ class Provinsi
      */
     public function setCreatedAtValue()
     {
-        // Add your code here
+        $this->created_at = new \DateTime();
     }
 
     /**
@@ -255,7 +255,10 @@ class Provinsi
      */
     public function setTokenValue()
     {
-        // Add your code here
+        if(!$this->getToken()) {
+            $st = date('Y-m-d H:i:s');
+			$this->token = sha1($st.rand(11111, 99999));
+        }
     }
 
     /**
@@ -263,7 +266,7 @@ class Provinsi
      */
     public function setIsActiveValue()
     {
-        // Add your code here
+        $this->is_active = true;
     }
 
     /**
@@ -271,7 +274,7 @@ class Provinsi
      */
     public function setIsDeleteValue()
     {
-        // Add your code here
+        $this->is_delete = false;
     }
 
     /**
@@ -279,7 +282,7 @@ class Provinsi
      */
     public function setUpdatedAtValue()
     {
-        // Add your code here
+        $this->updated_at = new \DateTime();
     }
     
     public function __toString()

@@ -78,7 +78,7 @@ class OrangController extends Controller
      */
     private function createCreateForm(Orang $entity)
     {
-        $form = $this->createForm(new OrangType(), $entity, array(
+        $form = $this->createForm(new OrangType($jk = null, $this->getDoctrine()->getManager()), $entity, array(
             'action' => $this->generateUrl('orang_create'),
             'method' => 'POST',
         ));
