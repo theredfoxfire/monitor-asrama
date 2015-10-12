@@ -1,4 +1,5 @@
 Monitor\MonitorBundle\Entity\Kabupaten:
+ repositoryClass: Monitor\MonitorBundle\Repository\KabupatenRepository
  type: entity
  table: kabupaten
  id:

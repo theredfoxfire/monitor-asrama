@@ -6,10 +6,10 @@ use Doctrine\ORM\EntityManager;
 use Monitor\MonitorBundle\Entity\Provinsi;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class OrangType extends AbstractType
 {
@@ -98,7 +98,7 @@ class OrangType extends AbstractType
         $data = $event->getData();
 
         // Note that the data is not yet hydrated into the entity.
-        $province = $this->em->getRepository('MonitorMonitorBundle:Provinsi')->find($data['provinsi']);
+        $provinsi = $this->em->getRepository('MonitorMonitorBundle:Provinsi')->find($data['provinsi']);
         $this->addElements($form, $provinsi);
     }
     

@@ -4,9 +4,9 @@ namespace Monitor\MonitorBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 /**
- * Provinsi
+ * Kabupaten
  */
-class Provinsi
+class Kabupaten
 {
     /**
      * @var integer
@@ -46,14 +46,19 @@ class Provinsi
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $kabupaten;
+    private $orang;
+
+    /**
+     * @var \Monitor\MonitorBundle\Entity\Provinsi
+     */
+    private $provinsi;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->kabupaten = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->orang = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -71,7 +76,7 @@ class Provinsi
      *
      * @param string $name
      *
-     * @return Provinsi
+     * @return Kabupaten
      */
     public function setName($name)
     {
@@ -95,7 +100,7 @@ class Provinsi
      *
      * @param boolean $isDelete
      *
-     * @return Provinsi
+     * @return Kabupaten
      */
     public function setIsDelete($isDelete)
     {
@@ -119,7 +124,7 @@ class Provinsi
      *
      * @param boolean $isActive
      *
-     * @return Provinsi
+     * @return Kabupaten
      */
     public function setIsActive($isActive)
     {
@@ -143,7 +148,7 @@ class Provinsi
      *
      * @param \DateTime $createdAt
      *
-     * @return Provinsi
+     * @return Kabupaten
      */
     public function setCreatedAt($createdAt)
     {
@@ -167,7 +172,7 @@ class Provinsi
      *
      * @param \DateTime $updatedAt
      *
-     * @return Provinsi
+     * @return Kabupaten
      */
     public function setUpdatedAt($updatedAt)
     {
@@ -191,7 +196,7 @@ class Provinsi
      *
      * @param string $token
      *
-     * @return Provinsi
+     * @return Kabupaten
      */
     public function setToken($token)
     {
@@ -211,37 +216,61 @@ class Provinsi
     }
 
     /**
-     * Add kabupaten
+     * Add orang
      *
-     * @param \Monitor\MonitorBundle\Entity\kabupaten $kabupaten
+     * @param \Monitor\MonitorBundle\Entity\Orang $orang
      *
-     * @return Provinsi
+     * @return Kabupaten
      */
-    public function addKabupaten(\Monitor\MonitorBundle\Entity\kabupaten $kabupaten)
+    public function addOrang(\Monitor\MonitorBundle\Entity\Orang $orang)
     {
-        $this->kabupaten[] = $kabupaten;
+        $this->orang[] = $orang;
 
         return $this;
     }
 
     /**
-     * Remove kabupaten
+     * Remove orang
      *
-     * @param \Monitor\MonitorBundle\Entity\kabupaten $kabupaten
+     * @param \Monitor\MonitorBundle\Entity\Orang $orang
      */
-    public function removeKabupaten(\Monitor\MonitorBundle\Entity\kabupaten $kabupaten)
+    public function removeOrang(\Monitor\MonitorBundle\Entity\Orang $orang)
     {
-        $this->kabupaten->removeElement($kabupaten);
+        $this->orang->removeElement($orang);
     }
 
     /**
-     * Get kabupaten
+     * Get orang
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getKabupaten()
+    public function getOrang()
     {
-        return $this->kabupaten;
+        return $this->orang;
+    }
+
+    /**
+     * Set provinsi
+     *
+     * @param \Monitor\MonitorBundle\Entity\Provinsi $provinsi
+     *
+     * @return Kabupaten
+     */
+    public function setProvinsi(\Monitor\MonitorBundle\Entity\Provinsi $provinsi = null)
+    {
+        $this->provinsi = $provinsi;
+
+        return $this;
+    }
+
+    /**
+     * Get provinsi
+     *
+     * @return \Monitor\MonitorBundle\Entity\Provinsi
+     */
+    public function getProvinsi()
+    {
+        return $this->provinsi;
     }
     /**
      * @ORM\PrePersist
@@ -256,7 +285,7 @@ class Provinsi
      */
     public function setTokenValue()
     {
-        if(!$this->getToken()) {
+        if (!$this->getToken()) {
             $st = date('Y-m-d H:i:s');
 			$this->token = sha1($st.rand(11111, 99999));
         }
@@ -287,7 +316,8 @@ class Provinsi
     }
     
     public function __toString()
-	{
+    {
 		return $this->getName() ? $this->getName() : "";
 	}
 }
+

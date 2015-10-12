@@ -2,6 +2,7 @@
 
 namespace Monitor\MonitorBundle\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
 /**
  * Kabupaten
  */
@@ -319,4 +320,3 @@ class Kabupaten
 		return $this->getName() ? $this->getName() : "";
 	}
 }
-

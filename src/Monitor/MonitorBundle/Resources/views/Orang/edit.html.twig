@@ -43,11 +43,28 @@
 							</div>
 								{{ form_errors(form.jk) }}
 						</td>
+					</tr>					<tr>
+						<td colspan='4'>
+							<div class="form-group">
+								<label for="exampleInputName2">Asal Provinsi</label>
+								{{ form_widget(form.provinsi) }}
+							</div>
+								{{ form_errors(form.provinsi) }}
+						</td>
 					</tr>
 					<tr>
 						<td colspan='4'>
 							<div class="form-group">
-								<label for="exampleInputName2">Alamat/Asal Kabupaten</label>
+								<label for="exampleInputName2">Asal Kabupaten</label>
+								{{ form_widget(form.kabupaten) }}
+							</div>
+								{{ form_errors(form.kabupaten) }}
+						</td>
+					</tr>
+					<tr>
+						<td colspan='4'>
+							<div class="form-group">
+								<label for="exampleInputName2">Alamat</label>
 								{{ form_widget(form.alamat) }}
 							</div>
 								{{ form_errors(form.alamat) }}
@@ -66,4 +83,23 @@
 			</div>
 		</div>
 	</div>
+	<script type="text/javascript">
+    $(document).ready(function () {
+        $('#monitor_monitorbundle_orang_provinsi').change(function(){
+           var val = $(this).val();
+           $.ajax({
+                type: "POST",
+                url: "{{ url('provinsi_ajax_call') }}?provinsi_id=" + val,
+                success: function(data) {
+                    // Remove current options
+                    $('#monitor_monitorbundle_orang_kabupaten').html('');
+                    $.each(data, function(k, v) {
+                        $('#monitor_monitorbundle_orang_kabupaten').append('<option value="' + v + '">' + k + '</option>');
+                    });
+                }
+            });
+            return false;
+        });
+    });
+</script>
 {% endblock %}

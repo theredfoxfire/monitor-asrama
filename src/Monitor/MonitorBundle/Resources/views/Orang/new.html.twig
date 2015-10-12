@@ -85,22 +85,22 @@
 		</div>
 	</div>
 	<script type="text/javascript">
-		$(document).ready(function () {
-			$('#monitor_monitorbundle_orang_provinsi').change(function(){
-			   var val = $(this).val();
-			   $.ajax({
-					type: "POST",
-					url: "{{ url('provinsi_ajax_call') }}?provinsi_id=" + val,
-					success: function(data) {
-						// Remove current options
-						$('#monitor_monitorbundle_orang_kabupaten').html('');
-						$.each(data, function(k, v) {
-							$('#monitor_monitorbundle_orang_kabupaten').append('<option value="' + v + '">' + k + '</option>');
-						});
-					}
-				});
-				return false;
-			});
-		});
-	</script>
+    $(document).ready(function () {
+        $('#monitor_monitorbundle_orang_provinsi').change(function(){
+           var val = $(this).val();
+           $.ajax({
+                type: "POST",
+                url: "{{ url('provinsi_ajax_call') }}?provinsi_id=" + val,
+                success: function(data) {
+                    // Remove current options
+                    $('#monitor_monitorbundle_orang_kabupaten').html('');
+                    $.each(data, function(k, v) {
+                        $('#monitor_monitorbundle_orang_kabupaten').append('<option value="' + v + '">' + k + '</option>');
+                    });
+                }
+            });
+            return false;
+        });
+    });
+</script>
 {% endblock %}

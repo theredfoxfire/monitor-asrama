@@ -2,10 +2,11 @@
 
 namespace Monitor\MonitorBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
 
 use Monitor\MonitorBundle\Entity\Orang;
 use Monitor\MonitorBundle\Form\OrangType;
@@ -154,7 +155,7 @@ class OrangController extends Controller
     */
     private function createEditForm(Orang $entity)
     {
-        $form = $this->createForm(new OrangType($entity->getJk()), $entity, array(
+        $form = $this->createForm(new OrangType($entity->getJk(), $this->getDoctrine()->getManager()), $entity, array(
             'action' => $this->generateUrl('orang_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
@@ -255,19 +256,18 @@ class OrangController extends Controller
 	public function ajaxAction(Request $request)
 	{
 		if (!$request->isXmlHttpRequest()) {
-			throw new NotFoundException();
+            throw new NotFoundHttpException();
 		}
 		
-		$id = $request->query->get('provinsi_id');
-		
-		$result = array();
-		
-		$repo = $this->getDoctrine()->getManager()->getRepository('MonitorMonitorBundle:Kabupaten');
-		$kabupaten = $repo->finByProvinsi($id, array('name' => 'asc'));
-		foreach ($kabupaten as $kab) {
-			$result[$kab->getName()] = $kab->getId();
-		}
-		
-		return new JsonResponse($result);
+		// Get the province ID
+        $id = $request->query->get('provinsi_id');
+        $result = array();
+        // Return a list of cities, based on the selected province
+        $repo = $this->getDoctrine()->getManager()->getRepository('MonitorMonitorBundle:Kabupaten');
+        $cities = $repo->findByProvince($id, array('name' => 'asc'));
+        foreach ($cities as $city) {
+            $result[$city->getName()] = $city->getId();
+        }
+        return new JsonResponse($result);
 	}
 }
