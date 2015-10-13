@@ -4,17 +4,17 @@ namespace Monitor\MonitorBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use FOS\UserBundle\Controller\RegistrationController as BaseController;
 
 use Monitor\MonitorBundle\Entity\User;
 use Monitor\MonitorBundle\Form\UserType;
 use Monitor\MonitorBundle\Form\EditUserType;
+use Monitor\MonitorBundle\Form\EditUserPasswordType;
 
 /**
  * User controller.
  *
  */
-class UserController extends BaseController
+class UserController extends Controller
 {
 
     /**
@@ -143,6 +143,24 @@ class UserController extends BaseController
             'form'   => $editForm->createView(),
         ));
     }
+    
+    public function editPasswordAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('MonitorMonitorBundle:User')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find User entity.');
+        }
+
+        $editForm = $this->createEditPasswordForm($entity);
+
+        return $this->render('MonitorMonitorBundle:User:editPassword.html.twig', array(
+            'entity'      => $entity,
+            'form'   => $editForm->createView(),
+        ));
+    }
 
     /**
     * Creates a form to edit a User entity.
@@ -160,6 +178,24 @@ class UserController extends BaseController
 
         return $form;
     }
+    
+    /**
+    * Creates a form to edit a User entity.
+    *
+    * @param User $entity The entity
+    *
+    * @return \Symfony\Component\Form\Form The form
+    */
+    private function createEditPasswordForm(User $entity)
+    {
+        $form = $this->createForm(new EditUserPasswordType($this->getDoctrine()->getManager(),$entity->getRoles(), $entity->getAsrama()), $entity, array(
+            'action' => $this->generateUrl('user_update_password', array('id' => $entity->getId())),
+            'method' => 'PUT',
+        ));
+
+        return $form;
+    }
+    
     /**
      * Edits an existing User entity.
      *
@@ -188,6 +224,41 @@ class UserController extends BaseController
             'form'   => $editForm->createView(),
         ));
     }
+    
+    public function updatePasswordAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('MonitorMonitorBundle:User')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find User entity.');
+        }
+
+        $editForm = $this->createEditPasswordForm($entity);
+        $editForm->handleRequest($request);
+        
+        $formData = $request->get('monitor_monitorbundle_edituserpassword');
+        $ps = $formData['plainPassword']['first'];
+            
+        $factory = $this->get('security.encoder_factory');
+		$encoder = $factory->getEncoder($entity);
+		$ep = $encoder->encodePassword($ps, $entity->getSalt());
+
+        if ($editForm->isValid()) {
+			$entity->setPassword($ep);
+			$em->persist($entity);
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('user'));
+        }
+
+        return $this->render('MonitorMonitorBundle:User:editPassword.html.twig', array(
+            'entity'      => $entity,
+            'form'   => $editForm->createView(),
+        ));
+    }
+    
     /**
      * Deletes a User entity.
      *
