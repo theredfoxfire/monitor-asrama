@@ -62,8 +62,8 @@ class PenghuniType extends AbstractType
 				'class' => 'MonitorMonitorBundle:Ruangan',
 				'query_builder' => function($er) use ($eR) {
 					return $er->createQueryBuilder('r')
-						->where('r.id = :asr and r.is_active = :is')
-						->setParameters(array('asr' => $this->ru, 'is' => 1));
+						->where('r.id = :asr and r.is_active = :is and r.is_delete = :del')
+						->setParameters(array('asr' => $this->ru, 'is' => 1, 'del' => false));
 				},
 				'property' => 'nama',
 				'attr' => array('class' => 'form-control'),

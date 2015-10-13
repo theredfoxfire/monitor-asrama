@@ -4,15 +4,17 @@ namespace Monitor\MonitorBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use FOS\UserBundle\Controller\RegistrationController as BaseController;
 
 use Monitor\MonitorBundle\Entity\User;
 use Monitor\MonitorBundle\Form\UserType;
+use Monitor\MonitorBundle\Form\EditUserType;
 
 /**
  * User controller.
  *
  */
-class UserController extends Controller
+class UserController extends BaseController
 {
 
     /**
@@ -24,9 +26,22 @@ class UserController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('MonitorMonitorBundle:User')->findAll();
+        $deleteForm = array();
+        foreach ($entities as $entity) {
+			$deleteForm[$entity->getId()] = $this->createDeleteForm($entity->getId())->createView();
+		}
+		
+		$paginator = $this->get('knp_paginator');
+		$query = $em->getRepository('MonitorMonitorBundle:User')->getUserQuery();
+        $pagination = $paginator->paginate(
+			$query,
+			$this->get('request')->query->get('page', 1),
+			25
+		);
 
         return $this->render('MonitorMonitorBundle:User:index.html.twig', array(
-            'entities' => $entities,
+            'entities' => $pagination,
+            'deleteForm' => $deleteForm,
         ));
     }
     /**
@@ -44,7 +59,7 @@ class UserController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('user_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('user'));
         }
 
         return $this->render('MonitorMonitorBundle:User:new.html.twig', array(
@@ -62,12 +77,10 @@ class UserController extends Controller
      */
     private function createCreateForm(User $entity)
     {
-        $form = $this->createForm(new UserType(), $entity, array(
+        $form = $this->createForm(new UserType($this->getDoctrine()->getManager()), $entity, array(
             'action' => $this->generateUrl('user_create'),
             'method' => 'POST',
         ));
-
-        $form->add('submit', 'submit', array('label' => 'Create'));
 
         return $form;
     }
@@ -124,12 +137,10 @@ class UserController extends Controller
         }
 
         $editForm = $this->createEditForm($entity);
-        $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('MonitorMonitorBundle:User:edit.html.twig', array(
             'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+            'form'   => $editForm->createView(),
         ));
     }
 
@@ -142,12 +153,10 @@ class UserController extends Controller
     */
     private function createEditForm(User $entity)
     {
-        $form = $this->createForm(new UserType(), $entity, array(
+        $form = $this->createForm(new EditUserType($this->getDoctrine()->getManager(),$entity->getRoles(), $entity->getAsrama()), $entity, array(
             'action' => $this->generateUrl('user_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
-
-        $form->add('submit', 'submit', array('label' => 'Update'));
 
         return $form;
     }
@@ -165,20 +174,18 @@ class UserController extends Controller
             throw $this->createNotFoundException('Unable to find User entity.');
         }
 
-        $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createEditForm($entity);
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('user_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('user'));
         }
 
         return $this->render('MonitorMonitorBundle:User:edit.html.twig', array(
             'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+            'form'   => $editForm->createView(),
         ));
     }
     /**
@@ -198,7 +205,7 @@ class UserController extends Controller
                 throw $this->createNotFoundException('Unable to find User entity.');
             }
 
-            $em->remove($entity);
+            $entity->setIsDelete(true);
             $em->flush();
         }
 
@@ -217,7 +224,6 @@ class UserController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('user_delete', array('id' => $id)))
             ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm()
         ;
     }

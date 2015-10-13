@@ -10,4 +10,17 @@ namespace Monitor\MonitorBundle\Repository;
  */
 class UserRepository extends \Doctrine\ORM\EntityRepository
 {
+	public function getUserQuery()
+	{
+		$query = $this->getEntityManager()
+			->createQuery('
+				select u from MonitorMonitorBundle:User u
+				where u.is_delete = :is
+			')
+			->setParameters(array(
+				'is' => false
+			));
+		
+		return $query;
+	}
 }

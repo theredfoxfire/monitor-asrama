@@ -27,5 +27,5 @@ Monitor\MonitorBundle\Entity\User:
     name: asrama_id
     referencedColumnName: id
  lifecycleCallbacks:
-  prePersist: [setCreatedAtValue, setTokenValue ]
+  prePersist: [setCreatedAtValue, setTokenValue, setIsDeleteValue ]
   preUpdate: [ setUpdatedAtValue ]

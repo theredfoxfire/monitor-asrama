@@ -176,7 +176,6 @@ class OrangController extends Controller
             throw $this->createNotFoundException('Unable to find Orang entity.');
         }
 
-        $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createEditForm($entity);
         $editForm->handleRequest($request);
 
@@ -188,8 +187,7 @@ class OrangController extends Controller
 
         return $this->render('MonitorMonitorBundle:Orang:edit.html.twig', array(
             'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+            'form'   => $editForm->createView(),
         ));
     }
     /**

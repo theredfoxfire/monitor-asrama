@@ -189,8 +189,6 @@ class AsramaController extends Controller
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Asrama entity.');
         }
-
-        $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createEditForm($entity);
         $editForm->handleRequest($request);
 

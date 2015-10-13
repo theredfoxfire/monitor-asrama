@@ -181,8 +181,7 @@ class PenghuniController extends Controller
 
         return $this->render('MonitorMonitorBundle:Penghuni:edit.html.twig', array(
             'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+            'form'   => $editForm->createView(),
         ));
     }
     /**

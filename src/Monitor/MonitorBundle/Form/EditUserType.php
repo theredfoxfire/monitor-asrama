@@ -8,7 +8,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 
-class UserType extends AbstractType
+class EditUserType extends AbstractType
 {
 	/**
 	 * @var object
@@ -50,18 +50,10 @@ class UserType extends AbstractType
 				'attr' => array('class' => 'form-control'),
 				'label' => false
 			))
-            ->add('plainPassword', 'repeated', array(
-				'type' => 'password',
-				'first_options' => array(
+            ->add('password', 'hidden', array(
 					'label' => 'Password',
 					'attr' => array('class' => 'form-control'),
-				),
-				'second_options' => array(
-					'label' => 'Ulangi Password',
-					'attr' => array('class' => 'form-control')
-				),
-				'invalid_message' => 'Password yang diulangi tidak cocok',
-            ))
+				))
             ->add('asrama', 'entity', array(
 				'class' => 'MonitorMonitorBundle:Asrama',
 				'query_builder' => function ($er) use ($eR) {
@@ -97,20 +89,12 @@ class UserType extends AbstractType
             'data_class' => 'Monitor\MonitorBundle\Entity\User'
         ));
     }
-    
-    /**
-     * @return fosuser registration
-     */
-    public function getParent()
-    {
-		return 'fos_user_registration';
-	}
 
     /**
      * @return string
      */
     public function getName()
     {
-        return 'monitor_monitorbundle_user';
+        return 'monitor_monitorbundle_edituser';
     }
 }

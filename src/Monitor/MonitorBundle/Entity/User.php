@@ -198,4 +198,12 @@ class User extends BaseUser
     {
         return $this->is_delete;
     }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function setIsDeleteValue()
+    {
+        $this->is_delete = false;
+    }
 }
