@@ -1,0 +1,109 @@
+{% extends 'MonitorMonitorBundle:Default:index.html.twig' %}
+
+{% block body %}
+		<div class='container'>
+		<div class='row'>
+			<div class='col-xs-12 col-md-12'>
+			<ol class="breadcrumb">
+				  <li><a href="{{ path('monitor_monitor_homepage') }}">Home</a></li>
+				  <li><a href="{{ path('asrama') }}">Asrama</a></li>
+				  <li class="active">Report Penghuni Asrama</li>
+			</ol>
+				{{ form_start(form) }}
+				{{ form_errors(form) }}
+				<table class='table table-bordered table-hover'>
+					<tr>
+						<th colspan='4'>
+							Report Penghuni Asrama
+						</th>
+					</tr>
+					<tr>
+						<td colspan='4'>
+							<div class="form-group">
+								<label for="exampleInputName2">Tanggal</label>
+								{{ form_widget(form.tanggal) }}
+							</div>
+								{{ form_errors(form.tanggal) }}
+						</td>
+					</tr>
+					<tr>
+						<td colspan='4'>
+							<div class="form-group">
+								<label for="exampleInputName2">Asal Kabupaten</label>
+								{{ form_widget(form.provinsi) }}
+								{{ form_widget(form.kabupaten) }}
+							</div>
+								{{ form_errors(form.kabupaten) }}
+								{{ form_widget(form.provinsi) }}
+						</td>
+					</tr>
+					<tr>
+						<td colspan='4'>
+							<div class="form-group">
+								<label for="exampleInputName2">Asrama</label>
+								{{ form_widget(form.asrama) }}
+							</div>
+								{{ form_errors(form.asrama) }}
+						</td>
+					</tr>
+					<tr>
+						<td colspan='4'>
+							<div class="form-group">
+								<label for="exampleInputName2">Angkatan</label>
+								{{ form_widget(form.angkatan) }}
+							</div>
+								{{ form_errors(form.angkatan) }}
+						</td>
+					</tr>
+					<tr>
+						<td colspan='4'>
+							<div class="form-group">
+								<label for="exampleInputName2">Jenis Kelamin</label>
+								{{ form_widget(form.jk) }}
+							</div>
+								{{ form_errors(form.jk) }}
+						</td>
+					</tr>
+					<tr>
+						<td colspan='4'>
+							<div class="form-group">
+								<button type='submit' class='btn btn-primary pull-right'><i class='fa fa-check-square-o'></i> SIMPAN</a>
+							</div>
+						</td>
+					</tr>
+				</table>
+				{{ form_row(form._token) }}
+			{{ form_end(form) }}
+			</div>
+		</div>
+	</div>
+	<script>
+	$(function() {
+		$('#monitor_monitorbundle_penghuni_orang').autocomplete({
+			source: "{{ path('orang_search') }}",
+			minLength: 2,
+			select: function() {
+			}
+		});
+	});
+	</script>
+	<script type="text/javascript">
+    $(document).ready(function () {
+        $('#monitor_monitorbundle_report_provinsi').change(function(){
+           var val = $(this).val();
+           $.ajax({
+                type: "POST",
+                url: "http://localhost/asrama/web/app_dev.php/orang/provinsi_call?provinsi_id=" + val,
+                success: function(data) {
+                    // Remove current options
+                    $('#monitor_monitorbundle_report_kabupaten').html('');
+                    $.each(data, function(k, v) {
+                        $('#monitor_monitorbundle_report_kabupaten').append('<option value="' + v + '">' + k + '</option>');
+                    });
+                }
+            });
+            return false;
+        });
+    });
+</script>
+{% endblock %}

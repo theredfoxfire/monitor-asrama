@@ -43,7 +43,7 @@ class OrangRepository extends \Doctrine\ORM\EntityRepository
 		$query = $this->getEntityManager()
 			->createQuery('
 				select o from MonitorMonitorBundle:Orang o
-				where o.nama like :key
+				where (o.nama like :key or o.no_identitas like :key)
 				and o.is_delete = :is
 				order by o.created_at, o.nama
 			')

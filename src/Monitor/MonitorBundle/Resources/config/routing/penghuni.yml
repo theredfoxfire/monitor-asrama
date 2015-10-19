@@ -14,7 +14,9 @@ penghuni_create:
     path:     /{ru}/create
     defaults: { _controller: "MonitorMonitorBundle:Penghuni:create" }
     methods:  POST
-
+penghuni_report:
+ path: /report/penghuni
+ defaults: { _controller: "MonitorMonitorBundle:Penghuni:report" }
 penghuni_edit:
     path:     /{id}/edit
     defaults: { _controller: "MonitorMonitorBundle:Penghuni:edit" }

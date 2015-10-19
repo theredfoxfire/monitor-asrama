@@ -7,6 +7,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Monitor\MonitorBundle\Entity\Penghuni;
 use Monitor\MonitorBundle\Form\PenghuniType;
+use Monitor\MonitorBundle\Entity\Report;
+use Monitor\MonitorBundle\Form\ReportType;
 
 /**
  * Penghuni controller.
@@ -224,5 +226,21 @@ class PenghuniController extends Controller
             ->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm()
         ;
+    }
+
+    public function reportAction()
+    {
+        $report = new Report();
+        $form = $this->createForm(new ReportType($this->getDoctrine()->getManager()),$report, array(
+            'action' => $this->generateUrl('penghuni_report'),
+            'method' => 'POST',
+        ));
+
+        $form = $form->createView();
+
+        return $this->render('MonitorMonitorBundle:Penghuni:report.html.twig', array(
+            'entity' => $report,
+            'form' => $form,
+        ));
     }
 }

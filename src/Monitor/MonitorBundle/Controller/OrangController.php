@@ -242,7 +242,7 @@ class OrangController extends Controller
 		$entities = $em->getRepository('MonitorMonitorBundle:Orang')->getSelectedOrang($term);
 		
 		foreach ($entities as $entity) {
-			$names[] = $entity->getId().'-'.$entity->getNama();
+			$names[] = $entity->getId().'-'.$entity->getNoIdentitas().'-'.$entity->getNama();
 		}
 		
 		$response = new JsonResponse();
