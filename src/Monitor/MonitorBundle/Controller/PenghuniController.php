@@ -258,8 +258,8 @@ class PenghuniController extends Controller
     public function showReportAction(Request $request)
     {
         $formData = $request->get('monitor_monitorbundle_report');
-        $tgl1 = new \DateTime($formData['tanggal_1']);
-        $tgl2 = new \DateTime($formData['tanggal_2']);
+        $tgl1 = $formData['tanggal_1'];
+        $tgl2 = $formData['tanggal_2'];
         
         if ($tgl2 < $tgl1) {
             $tgl1 = $tgl2;
@@ -299,20 +299,33 @@ class PenghuniController extends Controller
 
     public function excelAction($data)
     {
-        $data = json_decode($data);
+        $data = json_decode($data, true);
         $penghuni = $this->getDoctrine()->getManager()->getRepository('MonitorMonitorBundle:Penghuni')->getReportData($data);
         $workbook = new Workbook();
         $sheet = new Sheet($workbook);
         $table = new Table();
 
+        $i = 1;
+        $table->setRow([
+                    'NO',
+                    'TANGGAL',
+                    'NAMA',
+                    'JENIS KELAMIN',
+                    'NIM',
+                    'ASRAMA',
+                    'ASAL KABUPATEN',
+            ]);
         foreach ($penghuni as $p) {
             $table->setRow([
-                    $p->getTanggal(),
-                    $p->getOrang()->getNoIdentitas(),
+                    $i,
+                    $p->getTanggal()->format('d-m-Y'),
+                    $p->getOrang()->getNama(),
                     $p->getOrang()->getJk(),
+                    $p->getOrang()->getNoIdentitas(),
                     $p->getRuangan()->getAsrama()->getNama(),
                     $p->getOrang()->getKabupaten()->getProvinsi()->getName().' - '.$p->getOrang()->getKabupaten()->getName(),
             ]);
+        $i++;
         }
 
         $sheet->addTable($table, new Coordinate(1,1));

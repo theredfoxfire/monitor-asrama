@@ -57,8 +57,8 @@ class PenghuniRepository extends \Doctrine\ORM\EntityRepository
 			->setParameter('del', false);
 		if (!empty($data['tgl1'])) {
 			$query->andWhere('p.tanggal between :tgl1 and :tgl2')
-			->setParameter('tgl1', $data['tgl1'])
-			->setParameter('tgl2', $data['tgl2']);
+			->setParameter('tgl1', new \DateTime($data['tgl1']))
+			->setParameter('tgl2', new \DateTime($data['tgl2']));
 		}
 		if (!empty($data['kabupaten'])) {
 			$query->andWhere('o.kabupaten = :kab')
@@ -96,8 +96,8 @@ class PenghuniRepository extends \Doctrine\ORM\EntityRepository
 			->setParameter('del', false);
 		if (!empty($data['tgl1'])) {
 			$query->andWhere('p.tanggal between :tgl1 and :tgl2')
-			->setParameter('tgl1', $data['tgl1'])
-			->setParameter('tgl2', $data['tgl2']);
+			->setParameter('tgl1', new \DateTime($data['tgl1']))
+			->setParameter('tgl2', new \DateTime($data['tgl2']));
 		}
 		if (!empty($data['kabupaten'])) {
 			$query->andWhere('o.kabupaten = :kab')
@@ -118,6 +118,7 @@ class PenghuniRepository extends \Doctrine\ORM\EntityRepository
 
 		$query->orderBy('p.tanggal', 'ASC');
 
+		//return $query->getQuery()->getResult(2);
 		return $query->getQuery()->getResult();
 
 	}

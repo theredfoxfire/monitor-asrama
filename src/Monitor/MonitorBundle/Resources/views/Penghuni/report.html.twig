@@ -87,7 +87,7 @@
                 url: "http://localhost/asrama/web/app_dev.php/orang/provinsi_call?provinsi_id=" + val,
                 success: function(data) {
                     // Remove current options
-                    $('#monitor_monitorbundle_report_kabupaten').html('');
+                    $('#monitor_monitorbundle_report_kabupaten').html('<select id="monitor_monitorbundle_report_kabupaten" name="monitor_monitorbundle_report[kabupaten]" class="form-control" placeholder="Kota/Kabupaten Anda"><option value="">-- Pilih Kabupaten --</option></select>');
                     $.each(data, function(k, v) {
                         $('#monitor_monitorbundle_report_kabupaten').append('<option value="' + v + '">' + k + '</option>');
                     });
