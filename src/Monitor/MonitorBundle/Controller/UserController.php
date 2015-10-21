@@ -9,6 +9,7 @@ use Monitor\MonitorBundle\Entity\User;
 use Monitor\MonitorBundle\Form\UserType;
 use Monitor\MonitorBundle\Form\EditUserType;
 use Monitor\MonitorBundle\Form\EditUserPasswordType;
+
 /**
  * User controller.
  *
