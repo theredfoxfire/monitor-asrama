@@ -20,8 +20,7 @@
         "incenteev/composer-parameter-handler": "~2.0",
         "doctrine/data-fixtures": "dev-master",
         "knplabs/knp-paginator-bundle": "~2.4",
-        "friendsofsymfony/user-bundle": "~2.0@dev",
-        "wisembly/excelant": "*"
+        "friendsofsymfony/user-bundle": "~2.0@dev"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

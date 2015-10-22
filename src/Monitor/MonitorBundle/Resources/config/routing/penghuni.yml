@@ -25,13 +25,7 @@ penghuni_update:
     path:     /{id}/update
     defaults: { _controller: "MonitorMonitorBundle:Penghuni:update" }
     methods:  [POST, PUT]
-penghuni_show_report:
- path: /show/report
- defaults: { _controller: "MonitorMonitorBundle:Penghuni:showReport" }
- methods: [POST, PUT, GET]
-penghuni_export_excel:
- path: /export/excel/{data}
- defaults: { _controller: "MonitorMonitorBundle:Penghuni:excel" }
+
 penghuni_delete:
     path:     /{id}/delete
     defaults: { _controller: "MonitorMonitorBundle:Penghuni:delete" }

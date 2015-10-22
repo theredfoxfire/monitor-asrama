@@ -36,28 +36,17 @@ class ReportType extends AbstractType
         $eR = $this->em->getRepository('MonitorMonitorBundle:Asrama');
 
         $builder
-            ->add('tanggal_1','date', array(
+            ->add('tanggal','date', array(
                 'label' => false,
                 'widget' => 'single_text',
                 'format' => 'dd-MM-yyyy',
                 'required' => false,
                 'attr' => array(
                     'class' => 'form-control date',
-                    'placeholder' => 'Batas Awal (Biarkan Kosong untuk Melihat semua Tanggal)'
-                )
-            ))
-            ->add('tanggal_2','date', array(
-                'label' => false,
-                'widget' => 'single_text',
-                'format' => 'dd-MM-yyyy',
-                'required' => false,
-                'attr' => array(
-                    'class' => 'form-control date2',
-                    'placeholder' => 'Batas Akhir'
                 )
             ))
             ->add('asrama', 'entity', array(
-                'class' => 'MonitorMonitorBundle:Asrama',
+                'class' => 'MonitorMonitorBundle:Ruangan',
                 'query_builder' => function($er) use ($eR) {
                     return $er->createQueryBuilder('r')
                         ->where('r.is_active = :is and r.is_delete = :del')
@@ -96,7 +85,7 @@ class ReportType extends AbstractType
 			'attr'=>array('class'=>'form-control', 'placeholder'=>'Provinsi Anda'),
             'data' => $provinsi,
             'required'=> false,
-            'empty_value' => '-- Pilih Provinsi (Biarkan kosong untuk melihat semua Kabupaten) --',
+            'empty_value' => '-- Pilih Provinsi (Biarkan kosong untuk menampilkan semua data) --',
             'class' => 'MonitorMonitorBundle:Provinsi',
             'mapped' => false)
         );

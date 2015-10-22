@@ -11,12 +11,7 @@ class Report
     /**
      * @var \DateTime
      */
-    private $tanggal_1;
-
-    /**
-     * @var \DateTime
-     */
-    private $tanggal_2;
+    private $tanggal;
 
     /**
      * @var integer
@@ -44,9 +39,9 @@ class Report
      *
      * @return DateTime
      */
-    public function getTanggal1()
+    public function getTanggal()
     {
-        return $this->tanggal_1;
+        return $this->tanggal;
     }
 
     /**
@@ -56,33 +51,9 @@ class Report
      *
      * @return Report
      */
-    public function setTanggal1($tanggal_1)
+    public function setTanggal($tanggal)
     {
-        $this->tanggal_1 = $tanggal_1;
-
-        return $this;
-    }
-
-        /**
-     * Get tanggal
-     *
-     * @return DateTime
-     */
-    public function getTanggal2()
-    {
-        return $this->tanggal_2;
-    }
-
-    /**
-     * Set createdAt
-     *
-     * @param \DateTime $tanggal
-     *
-     * @return Report
-     */
-    public function setTanggal2($tanggal_2)
-    {
-        $this->tanggal_2 = $tanggal_2;
+        $this->tanggal = $tanggal;
 
         return $this;
     }

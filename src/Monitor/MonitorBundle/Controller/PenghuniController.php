@@ -4,22 +4,12 @@ namespace Monitor\MonitorBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\ResponseHeaderBag;
-use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 use Monitor\MonitorBundle\Entity\Penghuni;
 use Monitor\MonitorBundle\Form\PenghuniType;
 use Monitor\MonitorBundle\Entity\Report;
 use Monitor\MonitorBundle\Form\ReportType;
 
-use ExcelAnt\Adapter\PhpExcel\Workbook\Workbook,
-    ExcelAnt\Adapter\PhpExcel\Sheet\Sheet,
-    ExcelAnt\Adapter\PhpExcel\Writer\Writer,
-    ExcelAnt\Table\Table,
-    ExcelAnt\Coordinate\Coordinate,
-    ExcelAnt\Adapter\PhpExcel\Writer\WriterFactory,
-    ExcelAnt\Adapter\PhpExcel\Writer\PhpExcelWriter\Excel5;
 /**
  * Penghuni controller.
  *
@@ -242,9 +232,8 @@ class PenghuniController extends Controller
     {
         $report = new Report();
         $form = $this->createForm(new ReportType($this->getDoctrine()->getManager()),$report, array(
-            'action' => $this->generateUrl('penghuni_show_report'),
+            'action' => $this->generateUrl('penghuni_report'),
             'method' => 'POST',
-            'attr' => array('target' => '_blank'),
         ));
 
         $form = $form->createView();
@@ -253,107 +242,5 @@ class PenghuniController extends Controller
             'entity' => $report,
             'form' => $form,
         ));
-    }
-
-    public function showReportAction(Request $request)
-    {
-        $formData = $request->get('monitor_monitorbundle_report');
-        $tgl1 = $formData['tanggal_1'];
-        $tgl2 = $formData['tanggal_2'];
-        
-        if ($tgl2 < $tgl1) {
-            $tgl1 = $tgl2;
-            $tgl2 = $tgl1;
-        }
-
-        if (($formData['tanggal_1'] == null) or ($formData['tanggal_2'] == null)) {
-            $tgl1 = null ;
-            $tgl2 = null ; 
-        }
-
-        $data = array(
-            'tgl1' => $tgl1,
-            'tgl2' => $tgl2,
-            'kabupaten' => $formData['kabupaten'],
-            'asrama' => $formData['asrama'],
-            'angkatan' => $formData['angkatan'],
-            'jk' => $formData['jk'],
-        );
-
-        $query = $this->getDoctrine()->getManager()->getRepository('MonitorMonitorBundle:Penghuni')->getReportQuery($data);
-
-        $paginator = $this->get('knp_paginator');
-        $report = $paginator->paginate(
-            $query,
-            $this->get('request')->query->get('page', 1),
-            25
-        );
-
-        return  $this->render('MonitorMonitorBundle:Penghuni:showReport.html.twig',
-                array(
-                    'data' => $data,
-                    'entities' => $report,
-                )
-            );
-    }
-
-    public function excelAction($data)
-    {
-        $data = json_decode($data, true);
-        $penghuni = $this->getDoctrine()->getManager()->getRepository('MonitorMonitorBundle:Penghuni')->getReportData($data);
-        $workbook = new Workbook();
-        $sheet = new Sheet($workbook);
-        $table = new Table();
-
-        $i = 1;
-        $table->setRow([
-                    'NO',
-                    'TANGGAL',
-                    'NAMA',
-                    'JENIS KELAMIN',
-                    'NIM',
-                    'ASRAMA',
-                    'ASAL KABUPATEN',
-            ]);
-        foreach ($penghuni as $p) {
-            $table->setRow([
-                    $i,
-                    $p->getTanggal()->format('d-m-Y'),
-                    $p->getOrang()->getNama(),
-                    $p->getOrang()->getJk(),
-                    $p->getOrang()->getNoIdentitas(),
-                    $p->getRuangan()->getAsrama()->getNama(),
-                    $p->getOrang()->getKabupaten()->getProvinsi()->getName().' - '.$p->getOrang()->getKabupaten()->getName(),
-            ]);
-        $i++;
-        }
-
-        $sheet->addTable($table, new Coordinate(1,1));
-        $workbook->addSheet($sheet);
-        $d = date('Y-m-d-H-i-s');
-
-        $writer = (new WriterFactory())->createWriter(new Excel5(__DIR__.'/../../../../web/export/excel/'.$d.'-data-asrama.xls'));
-        $phpExcel = $writer->convert($workbook);
-        $writer->write($phpExcel);
-        
-        $filePath = __DIR__.'/../../../../web/export/excel/'.$d.'-data-asrama.xls';
-
-        $fs = new FileSystem();
-        if (!$fs->exists($filePath)) {
-            throw $this->createNotFoundException();
-        }
-
-        // prepare BinaryFileResponse
-        $filename = $d.'-data-penghuni-asrama.xls';
-        $response = new BinaryFileResponse($filePath);
-        $response->trustXSendfileTypeHeader();
-
-        $response->setContentDisposition(
-            ResponseHeaderBag::DISPOSITION_INLINE,
-            $filename,
-            iconv('UTF-8', 'ASCII//TRANSLIT', $filename)
-        );
-
-        return $response;
     }
 }
