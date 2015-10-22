@@ -43,6 +43,7 @@ class PenghuniRepository extends \Doctrine\ORM\EntityRepository
 		
 		return $query;
 	}
+<<<<<<< HEAD
 	public function getReportQuery($data)
 	{
 		$query = $this->getEntityManager()
@@ -121,4 +122,6 @@ class PenghuniRepository extends \Doctrine\ORM\EntityRepository
 		return $query->getQuery()->getResult();
 
 	}
+=======
+>>>>>>> 57281c5fc2706fd9fc5fbcd2c510a9372adf3149
 }
