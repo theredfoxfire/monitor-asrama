@@ -5,19 +5,14 @@ namespace Monitor\MonitorBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-<<<<<<< HEAD
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
-=======
-
->>>>>>> 57281c5fc2706fd9fc5fbcd2c510a9372adf3149
 use Monitor\MonitorBundle\Entity\Penghuni;
 use Monitor\MonitorBundle\Form\PenghuniType;
 use Monitor\MonitorBundle\Entity\Report;
 use Monitor\MonitorBundle\Form\ReportType;
 
-<<<<<<< HEAD
 use ExcelAnt\Adapter\PhpExcel\Workbook\Workbook,
     ExcelAnt\Adapter\PhpExcel\Sheet\Sheet,
     ExcelAnt\Adapter\PhpExcel\Writer\Writer,
@@ -26,8 +21,6 @@ use ExcelAnt\Adapter\PhpExcel\Workbook\Workbook,
     ExcelAnt\Adapter\PhpExcel\Writer\WriterFactory,
     ExcelAnt\Adapter\PhpExcel\Writer\PhpExcelWriter\Excel5;
 
-=======
->>>>>>> 57281c5fc2706fd9fc5fbcd2c510a9372adf3149
 /**
  * Penghuni controller.
  *
@@ -250,8 +243,9 @@ class PenghuniController extends Controller
     {
         $report = new Report();
         $form = $this->createForm(new ReportType($this->getDoctrine()->getManager()),$report, array(
-            'action' => $this->generateUrl('penghuni_report'),
+            'action' => $this->generateUrl('penghuni_show_report'),
             'method' => 'POST',
+            'attr' => array('target' => '_blank'),
         ));
         $form = $form->createView();
         return $this->render('MonitorMonitorBundle:Penghuni:report.html.twig', array(
@@ -259,7 +253,6 @@ class PenghuniController extends Controller
             'form' => $form,
         ));
     }
-<<<<<<< HEAD
     public function showReportAction(Request $request)
     {
         $formData = $request->get('monitor_monitorbundle_report');
@@ -361,6 +354,4 @@ class PenghuniController extends Controller
 
         return $response;
     }
-=======
->>>>>>> 57281c5fc2706fd9fc5fbcd2c510a9372adf3149
 }

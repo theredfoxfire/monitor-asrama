@@ -6,7 +6,6 @@
 			<div class='col-xs-12 col-md-12'>
 			<ol class="breadcrumb">
 				  <li><a href="{{ path('monitor_monitor_homepage') }}">Home</a></li>
-				  <li><a href="{{ path('asrama') }}">Asrama</a></li>
 				  <li class="active">Report Penghuni Asrama</li>
 			</ol>
 				{{ form_start(form) }}
@@ -20,10 +19,12 @@
 					<tr>
 						<td colspan='4'>
 							<div class="form-group">
-								<label for="exampleInputName2">Tanggal</label>
-								{{ form_widget(form.tanggal) }}
+								<label for="exampleInputName2">Range Tanggal</label>
+								{{ form_widget(form.tanggal_1) }}
+								{{ form_widget(form.tanggal_2) }}
 							</div>
-								{{ form_errors(form.tanggal) }}
+								{{ form_errors(form.tanggal_1) }}
+								{{ form_errors(form.tanggal_2) }}
 						</td>
 					</tr>
 					<tr>
@@ -67,7 +68,7 @@
 					<tr>
 						<td colspan='4'>
 							<div class="form-group">
-								<button type='submit' class='btn btn-primary pull-right'><i class='fa fa-check-square-o'></i> SIMPAN</a>
+								<button type='submit' onClick='return check()' class='btn btn-primary pull-right'><i class='fa fa-check-square-o'></i> TAMPILKAN</a>
 							</div>
 						</td>
 					</tr>
@@ -77,16 +78,6 @@
 			</div>
 		</div>
 	</div>
-	<script>
-	$(function() {
-		$('#monitor_monitorbundle_penghuni_orang').autocomplete({
-			source: "{{ path('orang_search') }}",
-			minLength: 2,
-			select: function() {
-			}
-		});
-	});
-	</script>
 	<script type="text/javascript">
     $(document).ready(function () {
         $('#monitor_monitorbundle_report_provinsi').change(function(){
@@ -105,7 +96,6 @@
             return false;
         });
     });
-<<<<<<< HEAD
     function check()
     {
     	var tgl1 = document.getElementById('monitor_monitorbundle_report_tanggal_1').value;
@@ -120,7 +110,5 @@
 	        }
 	    return true;
     }
-=======
->>>>>>> 57281c5fc2706fd9fc5fbcd2c510a9372adf3149
 </script>
 {% endblock %}

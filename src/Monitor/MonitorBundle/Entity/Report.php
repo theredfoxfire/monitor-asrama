@@ -9,16 +9,11 @@ class Report
     /**
      * @var \DateTime
      */
-<<<<<<< HEAD
     private $tanggal_1;
     /**
      * @var \DateTime
      */
     private $tanggal_2;
-=======
-    private $tanggal;
-
->>>>>>> 57281c5fc2706fd9fc5fbcd2c510a9372adf3149
     /**
      * @var integer
      */
@@ -41,7 +36,6 @@ class Report
      *
      * @return DateTime
      */
-<<<<<<< HEAD
     public function getTanggal1()
     {
         return $this->tanggal_1;
@@ -64,11 +58,8 @@ class Report
      * @return DateTime
      */
     public function getTanggal2()
-=======
-    public function getTanggal()
->>>>>>> 57281c5fc2706fd9fc5fbcd2c510a9372adf3149
     {
-        return $this->tanggal;
+        return $this->tanggal_2;
     }
     /**
      * Set createdAt
@@ -77,14 +68,9 @@ class Report
      *
      * @return Report
      */
-    public function setTanggal($tanggal)
+    public function setTanggal2($tanggal_2)
     {
-<<<<<<< HEAD
         $this->tanggal_2 = $tanggal_2;
-=======
-        $this->tanggal = $tanggal;
-
->>>>>>> 57281c5fc2706fd9fc5fbcd2c510a9372adf3149
         return $this;
     }
     /**
