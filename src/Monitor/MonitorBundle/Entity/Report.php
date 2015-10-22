@@ -1,7 +1,5 @@
 <?php
-
 namespace Monitor\MonitorBundle\Entity;
-
 use Doctrine\ORM\Mapping as ORM;
 /**
  * User
@@ -11,18 +9,19 @@ class Report
     /**
      * @var \DateTime
      */
-    private $tanggal;
-
+    private $tanggal_1;
+    /**
+     * @var \DateTime
+     */
+    private $tanggal_2;
     /**
      * @var integer
      */
     private $kabupaten;
-
     /**
      * @var integer
      */
     private $angkatan;
-
     /**
      * @var integer
      */
@@ -32,18 +31,15 @@ class Report
      * @var string
      */
     private $jk;
-
-
     /**
      * Get tanggal
      *
      * @return DateTime
      */
-    public function getTanggal()
+    public function getTanggal1()
     {
-        return $this->tanggal;
+        return $this->tanggal_1;
     }
-
     /**
      * Set createdAt
      *
@@ -51,13 +47,32 @@ class Report
      *
      * @return Report
      */
-    public function setTanggal($tanggal)
+    public function setTanggal1($tanggal_1)
     {
-        $this->tanggal = $tanggal;
-
+        $this->tanggal_1 = $tanggal_1;
         return $this;
     }
-
+        /**
+     * Get tanggal
+     *
+     * @return DateTime
+     */
+    public function getTanggal2()
+    {
+        return $this->tanggal_2;
+    }
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $tanggal
+     *
+     * @return Report
+     */
+    public function setTanggal2($tanggal_2)
+    {
+        $this->tanggal_2 = $tanggal_2;
+        return $this;
+    }
     /**
     * @Get kabupaten
     * @return integer
@@ -66,7 +81,6 @@ class Report
     {
         return $this->kabupaten;
     }
-
     /**
     * @param $kabupaten 
     * @return Report
@@ -76,7 +90,6 @@ class Report
         $this->kabupaten = $kabupaten;
         return;
     }
-
     /**
     * Get angkatan
     * @return integer
@@ -85,7 +98,6 @@ class Report
     {
         return $this->angkatan;
     }
-
     /**
     * Set angkatan
     * @param $angkatan Integer
@@ -94,10 +106,8 @@ class Report
     public function setAngkatan($angkatan)
     {
         $this->angkatan = $angkatan;
-
         return;
     }
-
     /**
     * Get asrama
     * @return integer
@@ -106,7 +116,6 @@ class Report
     {
         return $this->asrama;
     }
-
     /**
     * Set asrama
     * @param $asrama integer
@@ -114,10 +123,8 @@ class Report
     public function setAsrama($asrama)
     {
         $this->asrama = $asrama;
-
         return;
     }
-
     /**
     * Get jk
     * @return string
@@ -126,7 +133,6 @@ class Report
     {
         return $this->jk;
     }
-
     /**
     * Set jk
     * @param $jk
@@ -135,7 +141,6 @@ class Report
     public function setJk($jk)
     {
         $this->jk = $jk;
-
         return;
     }
 }

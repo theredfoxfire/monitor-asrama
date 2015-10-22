@@ -1,0 +1,54 @@
+{% extends 'MonitorMonitorBundle:Default:index.html.twig' %}
+
+{% block body %}
+		<div class='container'>
+		<div class='row'>
+			<div class='col-xs-12 col-md-12'>
+			<ol class="breadcrumb">
+				  <li><a href="{{ path('monitor_monitor_homepage') }}">Home</a></li>
+				  <li><a href="{{ path('penghuni_report') }}">Form Report</a></li>
+				  <li class="active">Show Report</li>
+				  {% set jsonData = data|json_encode() %}
+			</ol>
+				<table class='table table-bordered table-hover'>
+					<tr>
+						<th colspan='7'>
+							Daftar Penghuni <a target='_blank' href="{{ path('penghuni_export_excel', {'data': jsonData}) }}" class='btn btn-success pull-right'><i class='fa fa-th-list'></i> Export ke Excel</a>
+						</th>
+					</tr>
+					<tr>
+						<th width='5%'>No</th><th>Tanggal</th>
+						<th width='30%'>Nama</th><th>Jenis Kelamin</th><th>No. ID/NIM</th>
+						<th width='10%'>Asrama</th><th width='35%'>Asal Kabupaten</th>
+					</tr>
+					{% set pg = app.request.query.get('page') %}
+					{% if pg == 1 or pg == null %}
+						{% set i = 1 %}
+					{% else %}
+						{% set i = 25 *( pg-1 ) + 1 %}
+					{% endif %}
+					{% for entity in entities %}
+					<tr>
+						<td>{{ i }}</td>
+						<td>{{ entity.tanggal|date('d-m-Y') }}</td>
+						<td><a class='link' target='_blank' href="{{ path('orang_show', { 'id': entity.orang.id }) }}">{{ entity.orang.nama }}</a></td>
+						<td>{{ entity.orang.jk }}</td>
+						<td>{{ entity.orang.noidentitas }}</td>
+						<td>{{ entity.ruangan.asrama.nama }}</td>
+						<td>{{ entity.orang.kabupaten.provinsi.name }} - {{ entity.orang.kabupaten.name }}</td>
+					</tr>
+					{% set i = i+1 %}
+					{% endfor %}
+					{% if i < 2 %}
+						<tr>
+						<td colspan='7' class='text-center'>Data Kosong</td>
+						</tr>
+					{% endif %}
+				</table>
+				<div class="text-center">
+						<h4>{{ knp_pagination_render(entities) }}</h4>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

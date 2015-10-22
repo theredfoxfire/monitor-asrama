@@ -6,7 +6,6 @@
 			<div class='col-xs-12 col-md-12'>
 			<ol class="breadcrumb">
 				  <li><a href="{{ path('monitor_monitor_homepage') }}">Home</a></li>
-				  <li><a href="{{ path('asrama') }}">Asrama</a></li>
 				  <li class="active">Report Penghuni Asrama</li>
 			</ol>
 				{{ form_start(form) }}
@@ -20,10 +19,12 @@
 					<tr>
 						<td colspan='4'>
 							<div class="form-group">
-								<label for="exampleInputName2">Tanggal</label>
-								{{ form_widget(form.tanggal) }}
+								<label for="exampleInputName2">Range Tanggal</label>
+								{{ form_widget(form.tanggal_1) }}
+								{{ form_widget(form.tanggal_2) }}
 							</div>
-								{{ form_errors(form.tanggal) }}
+								{{ form_errors(form.tanggal_1) }}
+								{{ form_errors(form.tanggal_2) }}
 						</td>
 					</tr>
 					<tr>
@@ -67,7 +68,7 @@
 					<tr>
 						<td colspan='4'>
 							<div class="form-group">
-								<button type='submit' class='btn btn-primary pull-right'><i class='fa fa-check-square-o'></i> SIMPAN</a>
+								<button type='submit' onClick='return check()' class='btn btn-primary pull-right'><i class='fa fa-check-square-o'></i> TAMPILKAN</a>
 							</div>
 						</td>
 					</tr>
@@ -77,16 +78,6 @@
 			</div>
 		</div>
 	</div>
-	<script>
-	$(function() {
-		$('#monitor_monitorbundle_penghuni_orang').autocomplete({
-			source: "{{ path('orang_search') }}",
-			minLength: 2,
-			select: function() {
-			}
-		});
-	});
-	</script>
 	<script type="text/javascript">
     $(document).ready(function () {
         $('#monitor_monitorbundle_report_provinsi').change(function(){
@@ -96,7 +87,7 @@
                 url: "http://localhost/asrama/web/app_dev.php/orang/provinsi_call?provinsi_id=" + val,
                 success: function(data) {
                     // Remove current options
-                    $('#monitor_monitorbundle_report_kabupaten').html('');
+                    $('#monitor_monitorbundle_report_kabupaten').html('<select id="monitor_monitorbundle_report_kabupaten" name="monitor_monitorbundle_report[kabupaten]" class="form-control" placeholder="Kota/Kabupaten Anda"><option value="">-- Pilih Kabupaten --</option></select>');
                     $.each(data, function(k, v) {
                         $('#monitor_monitorbundle_report_kabupaten').append('<option value="' + v + '">' + k + '</option>');
                     });
@@ -105,5 +96,19 @@
             return false;
         });
     });
+    function check()
+    {
+    	var tgl1 = document.getElementById('monitor_monitorbundle_report_tanggal_1').value;
+    	var tgl2 = document.getElementById('monitor_monitorbundle_report_tanggal_2').value;
+    	var tgla = tgl1.split("-");
+    	var tglb = tgl2.split("-");
+    	var dateOne = new Date(tgla[2], tgla[1], tgla[0]);
+	    var dateTwo = new Date(tglb[2], tglb[1], tglb[0]);
+	       if (dateOne > dateTwo) {
+	            alert("Tanggal Awal Harus < atau = Tanggal Akhir.");
+	            return false;
+	        }
+	    return true;
+    }
 </script>
 {% endblock %}

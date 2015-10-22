@@ -1,7 +1,5 @@
 <?php
-
 namespace Monitor\MonitorBundle\Form;
-
 use Doctrine\ORM\EntityManager;
 use Monitor\MonitorBundle\Entity\Provinsi;
 use Symfony\Component\Form\AbstractType;
@@ -10,14 +8,12 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-
 class ReportType extends AbstractType
 {
         /**
      * @var object 
      */
     protected $em;
-
     public function __construct(EntityManager $em = null)
     {
         $this->em = $em;
@@ -32,21 +28,30 @@ class ReportType extends AbstractType
         for ($t = 2010; $t <= date('Y'); $t++) {
             $angkatan[$t] = $t;
         }
-
         $eR = $this->em->getRepository('MonitorMonitorBundle:Asrama');
-
         $builder
-            ->add('tanggal','date', array(
+            ->add('tanggal_1','date', array(
                 'label' => false,
                 'widget' => 'single_text',
                 'format' => 'dd-MM-yyyy',
                 'required' => false,
                 'attr' => array(
                     'class' => 'form-control date',
+                    'placeholder' => 'Batas Awal (Biarkan Kosong untuk Melihat semua Tanggal)'
+                )
+            ))
+            ->add('tanggal_2','date', array(
+                'label' => false,
+                'widget' => 'single_text',
+                'format' => 'dd-MM-yyyy',
+                'required' => false,
+                'attr' => array(
+                    'class' => 'form-control date2',
+                    'placeholder' => 'Batas Akhir'
                 )
             ))
             ->add('asrama', 'entity', array(
-                'class' => 'MonitorMonitorBundle:Ruangan',
+                'class' => 'MonitorMonitorBundle:Asrama',
                 'query_builder' => function($er) use ($eR) {
                     return $er->createQueryBuilder('r')
                         ->where('r.is_active = :is and r.is_delete = :del')
@@ -85,11 +90,10 @@ class ReportType extends AbstractType
 			'attr'=>array('class'=>'form-control', 'placeholder'=>'Provinsi Anda'),
             'data' => $provinsi,
             'required'=> false,
-            'empty_value' => '-- Pilih Provinsi (Biarkan kosong untuk menampilkan semua data) --',
+            'empty_value' => '-- Pilih Provinsi (Biarkan kosong untuk melihat semua Kabupaten) --',
             'class' => 'MonitorMonitorBundle:Provinsi',
             'mapped' => false)
         );
-
         // Cities are empty, unless we actually supplied a province
         $cities = array();
         if ($provinsi) {
@@ -97,7 +101,6 @@ class ReportType extends AbstractType
             $repo = $this->em->getRepository('MonitorMonitorBundle:Kabupaten');
             $cities = $repo->findByProvinsi($provinsi, array('name' => 'asc'));
         }
-
         // Add the city element
         $form->add('kabupaten', 'entity', array(
 			'attr'=>array('class'=>'form-control', 'placeholder'=>'Kota/Kabupaten Anda'),
@@ -111,7 +114,6 @@ class ReportType extends AbstractType
     function onPreSubmit(FormEvent $event) {
         $form = $event->getForm();
         $data = $event->getData();
-
         // Note that the data is not yet hydrated into the entity.
         $provinsi = $this->em->getRepository('MonitorMonitorBundle:Provinsi')->find($data['provinsi']);
         $this->addElements($form, $provinsi);
@@ -120,7 +122,6 @@ class ReportType extends AbstractType
     function onPreSetData(FormEvent $event) {
         $account = $event->getData();
         $form = $event->getForm();
-
         // We might have an empty account (when we insert a new account, for instance)
         $provinsi = $account->getKabupaten() ? $account->getKabupaten()->getProvinsi() : null;
         $this->addElements($form, $provinsi);
@@ -135,7 +136,6 @@ class ReportType extends AbstractType
             'data_class' => 'Monitor\MonitorBundle\Entity\Report'
         ));
     }
-
     /**
      * @return string
      */
