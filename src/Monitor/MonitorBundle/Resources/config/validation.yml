@@ -1,0 +1,10 @@
+Monitor\MonitorBundle\Entity\User:
+ constraints:
+  - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
+     fields: [username]
+     errorPath: username
+     message: 'Gunakan username lain, username tersebut sudah digunakan.'
+  - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
+     fields: [email]
+     errorPath: email
+     message: 'Gunakan alamat email lain, email tersebut sudah digunakan.'

@@ -83,6 +83,9 @@ fos_user:
  db_driver: orm
  firewall_name: main
  user_class: Monitor\MonitorBundle\Entity\User
+ registration:
+  form:
+   type: app_user_registration
 knp_paginator:
  template:
   pagination: KnpPaginatorBundle:Pagination:twitter_bootstrap_v3_pagination.html.twig

@@ -56,6 +56,7 @@ class UserController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $entity->setEnabled(true);
             $em->persist($entity);
             $em->flush();
 
@@ -277,6 +278,8 @@ class UserController extends Controller
             }
 
             $entity->setIsDelete(true);
+            $entity->setLocked(true);
+            $entity->setEnabled(false);
             $em->flush();
         }
 
