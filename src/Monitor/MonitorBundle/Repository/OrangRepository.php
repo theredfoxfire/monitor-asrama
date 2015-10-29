@@ -30,7 +30,7 @@ class OrangRepository extends \Doctrine\ORM\EntityRepository
 			->createQuery('
 				select o from MonitorMonitorBundle:Orang o
 				where o.is_delete = :is
-				order by o.created_at, o.nama
+				order by o.no_identitas asc
 			')->setParameters(array(
 				'is' => false
 			));

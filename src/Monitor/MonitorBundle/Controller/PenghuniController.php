@@ -307,9 +307,9 @@ class PenghuniController extends Controller
         $table->setRow([
                     'NO',
                     'TANGGAL',
+                    'NIM',
                     'NAMA',
                     'JENIS KELAMIN',
-                    'NIM',
                     'ASRAMA',
                     'ASAL KABUPATEN',
             ]);
@@ -317,9 +317,9 @@ class PenghuniController extends Controller
             $table->setRow([
                     $i,
                     $p->getTanggal()->format('d-m-Y'),
+                    $p->getOrang()->getNoIdentitas(),
                     $p->getOrang()->getNama(),
                     $p->getOrang()->getJk(),
-                    $p->getOrang()->getNoIdentitas(),
                     $p->getRuangan()->getAsrama()->getNama(),
                     $p->getOrang()->getKabupaten()->getProvinsi()->getName().' - '.$p->getOrang()->getKabupaten()->getName(),
             ]);

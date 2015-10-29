@@ -18,7 +18,8 @@
 					</tr>
 					<tr>
 						<th width='5%'>No</th><th>Tanggal</th>
-						<th width='30%'>Nama</th><th>Jenis Kelamin</th><th>No. ID/NIM</th>
+						<th>NIM</th>
+						<th width='30%'>Nama</th><th>Jenis Kelamin</th>
 						<th width='10%'>Asrama</th><th width='35%'>Asal Kabupaten</th>
 					</tr>
 					{% set pg = app.request.query.get('page') %}
@@ -31,9 +32,9 @@
 					<tr>
 						<td>{{ i }}</td>
 						<td>{{ entity.tanggal|date('d-m-Y') }}</td>
+						<td>{{ entity.orang.noidentitas }}</td>
 						<td><a class='link' target='_blank' href="{{ path('orang_show', { 'id': entity.orang.id }) }}">{{ entity.orang.nama }}</a></td>
 						<td>{{ entity.orang.jk }}</td>
-						<td>{{ entity.orang.noidentitas }}</td>
 						<td>{{ entity.ruangan.asrama.nama }}</td>
 						<td>{{ entity.orang.kabupaten.provinsi.name }} - {{ entity.orang.kabupaten.name }}</td>
 					</tr>

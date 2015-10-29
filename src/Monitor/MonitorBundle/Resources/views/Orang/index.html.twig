@@ -15,7 +15,7 @@
 						</th>
 					</tr>
 					<tr>
-						<th width='5%'>No</th><th width='50%'>Nama</th><th>Jenis Kelamin</th><th>No. ID/NIM</th><th width='10%'>Status</th><th width='15%'>Action</th>
+						<th width='5%'>No</th><th>No. ID/NIM</th><th width='30%'>Nama</th><th>Jenis Kelamin</th><th>Kabupaten</th><th width='10%'>Status</th><th width='15%'>Action</th>
 					</tr>
 					{% set pg = app.request.query.get('page') %}
 					{% if pg == 1 or pg == null %}
@@ -26,9 +26,10 @@
 					{% for entity in entities %}
 					<tr>
 						<td>{{ i }}</td>
+						<td>{{ entity.noidentitas }}</td>
 						<td><a class='link' href="{{ path('orang_show', { 'id': entity.id }) }}">{{ entity.nama }}</a></td>
 						<td>{{ entity.jk }}</td>
-						<td>{{ entity.noidentitas }}</td>
+						<td>{{ entity.kabupaten.name }}</td>
 						<td>{% if entity.isactive == 1 %} Aktif {% else %} Tidak Aktif {% endif %}</td>
 						<td>
 							<a href="{{ path('orang_edit', { 'id': entity.id }) }}"><button type='submit' class='btn btn-primary pull-left'><i class='fa fa-pencil-square-o'></i>Edit</button></a>
